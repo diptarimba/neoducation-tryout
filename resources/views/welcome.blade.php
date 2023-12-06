@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <title>Neoducation</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <meta content="Tailwind Admin & Dashboard Template" name="description" />
+    <meta content="Neoducation Try Out" name="description" />
     <meta content="" name="Themesbrand" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
