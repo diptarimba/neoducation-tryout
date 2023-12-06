@@ -42,7 +42,7 @@
                             <div class="my-auto">
                                 <div class="text-center">
                                     <h5 class="text-gray-600 dark:text-gray-100">Register Participant</h5>
-                                    <p class="text-gray-500 mt-1 dark:text-zinc-100/60">Get your try out account now.
+                                    <p class="text-gray-500 mt-1 dark:text-zinc-100/60">Get your TRY OUT account now.
                                     </p>
                                 </div>
 
@@ -53,35 +53,37 @@
                                             class="text-gray-600 font-medium mb-2 block dark:text-gray-100">Nama</label>
                                         <input type="text"
                                             class="w-full border-gray-100 rounded placeholder:text-sm py-2 dark:bg-zinc-700/50 dark:border-zinc-600 dark:text-gray-100 dark:placeholder:text-zinc-100/60"
-                                            id="name" name="name" placeholder="Enter Name">
+                                            id="name" name="name" required placeholder="Enter Name">
                                     </div>
                                     <div class="mb-4">
                                         <label class="text-gray-600 font-medium mb-2 block dark:text-gray-100">Nomor
                                             Hp</label>
                                         <input type="text"
                                             class="w-full border-gray-100 rounded placeholder:text-sm py-2 dark:bg-zinc-700/50 dark:border-zinc-600 dark:text-gray-100 dark:placeholder:text-zinc-100/60"
-                                            id="phone" name="phone" placeholder="Enter Phone Number">
+                                            id="phone" name="phone" required placeholder="Enter Phone Number"
+                                            pattern="[0-9]*" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
                                     </div>
                                     <div class="mb-4">
                                         <label class="text-gray-600 font-medium mb-2 block dark:text-gray-100">Tanggal
                                             lahir</label>
                                         <input type="date"
                                             class="w-full border-gray-100 rounded placeholder:text-sm py-2 dark:bg-zinc-700/50 dark:border-zinc-600 dark:text-gray-100 dark:placeholder:text-zinc-100/60"
-                                            id="dob" name="dob" placeholder="Enter Date Of Birth">
+                                            id="dob" name="dob" required placeholder="Enter Date Of Birth">
                                     </div>
                                     <div class="mb-4">
                                         <label class="text-gray-600 font-medium mb-2 block dark:text-gray-100">Asal
                                             Sekolah</label>
                                         <input type="text"
                                             class="w-full border-gray-100 rounded placeholder:text-sm py-2 dark:bg-zinc-700/50 dark:border-zinc-600 dark:text-gray-100 dark:placeholder:text-zinc-100/60"
-                                            id="school" name="school" placeholder="Enter username">
+                                            id="school" name="school" requried placeholder="Enter username">
                                     </div>
                                     <div class="mb-4">
                                         <label
                                             class="text-gray-600 font-medium mb-2 block dark:text-gray-100">Username</label>
                                         <input type="text"
                                             class="w-full border-gray-100 rounded placeholder:text-sm py-2 dark:bg-zinc-700/50 dark:border-zinc-600 dark:text-gray-100 dark:placeholder:text-zinc-100/60"
-                                            id="username" name="username" placeholder="Enter Username baru ">
+                                            id="username" name="username" required
+                                            oninput="this.value = this.value.trim()" placeholder="Enter Username baru ">
                                     </div>
                                     <div class="mb-3">
                                         <div>
@@ -95,7 +97,7 @@
                                             <input type="password"
                                                 class="w-full border-gray-100 rounded ltr:rounded-r-none rtl:rounded-l-none placeholder:text-sm py-2 dark:bg-zinc-700/50 dark:border-zinc-600 dark:text-gray-100 dark:placeholder:text-zinc-100/60"
                                                 placeholder="Enter password" aria-label="Password" name="password"
-                                                aria-describedby="password-addon">
+                                                required aria-describedby="password-addon">
                                             <button
                                                 class="bg-gray-50 px-4 rounded ltr:rounded-l-none rtl:rounded-r-none border border-gray-100 ltr:border-l-0 rtl:border-r-0 dark:bg-zinc-700 dark:border-zinc-600 dark:text-gray-100"
                                                 type="button" id="password-addon"><i
@@ -179,7 +181,8 @@
                                     <div class="swiper-wrapper">
                                         <div class="swiper-slide">
                                             <i class="bx bxs-quote-alt-left text-green-600 text-5xl"></i>
-                                            <h3 class="mt-4 text-white text-22">“Saya datang, saya lihat, saya menang”</h3>
+                                            <h3 class="mt-4 text-white text-22">“Saya datang, saya lihat, saya menang”
+                                            </h3>
                                             <div class="flex mt-6 mb-10 pt-4">
                                                 <img src="{{ asset('assets/images/julius-caesar-20220304-162003.jpg') }}"
                                                     class="h-12 w-12 rounded-full" alt="...">
@@ -192,7 +195,8 @@
                                         </div>
                                         <div class="swiper-slide">
                                             <i class="bx bxs-quote-alt-left text-green-600 text-5xl"></i>
-                                            <h3 class="mt-4 text-white text-22">“Jangan menunggu peluang, buatlah sendiri.”</h3>
+                                            <h3 class="mt-4 text-white text-22">“Jangan menunggu peluang, buatlah
+                                                sendiri.”</h3>
                                             <div class="flex mt-6 mb-10 pt-4">
                                                 <img src="{{ asset('assets/images/bradley-whitford-e43bc8bc777f4facb229597eaefd038d.jpg') }}"
                                                     class="h-12 w-12 rounded-full" alt="...">
@@ -205,7 +209,8 @@
                                         </div>
                                         <div class="swiper-slide">
                                             <i class="bx bxs-quote-alt-left text-green-600 text-5xl"></i>
-                                            <h3 class="mt-4 text-white text-22">“Hidup ini seperti bersepeda, untuk menjaga keseimbangan, Anda harus terus bergerak.”</h3>
+                                            <h3 class="mt-4 text-white text-22">“Hidup ini seperti bersepeda, untuk
+                                                menjaga keseimbangan, Anda harus terus bergerak.”</h3>
                                             <div class="flex mt-6 mb-10 pt-4">
                                                 <img src="{{ asset('assets/images/albert.jpg') }}"
                                                     class="h-12 w-12 rounded-full" alt="...">
@@ -261,35 +266,56 @@
             $('form').submit(function(event) {
                 event.preventDefault();
 
-                // Send a POST request to the server
-                $.ajax({
-                    url: "{{ route('users.store') }}",
-                    method: "POST",
-                    data: $(this).serialize(),
-                    success: function(response) {
-                        // Show SweetAlert success message
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Registration Successful',
-                            text: 'Thank you for registering!',
-                            showConfirmButton: false,
-                            timer: 2000
-                        });
-                        setTimeout(function() {
-                            window.location.href = "https://temubakat.com/id/";
-                        }, 2000);
-                    },
-                    error: function(error) {
-                        var err = JSON.parse(error.responseText);
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Registration Failed : ' + err.message,
-                            text: 'An error occurred while registering. Please try again.',
-                            showConfirmButton: false,
-                            timer: 2000
-                        });
+                // Check if all required fields are filled
+                var isValid = true;
+                $(this).find('input[required]').each(function() {
+                    if ($(this).val() === '') {
+                        isValid = false;
+                        // Add error styles to the input
+                        $(this).addClass('error');
                     }
                 });
+
+                if (isValid) {
+                    // Send a POST request to the server
+                    $.ajax({
+                        url: "{{ route('users.store') }}",
+                        method: "POST",
+                        data: $(this).serialize(),
+                        success: function(response) {
+                            // Show SweetAlert success message
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Registration Successful',
+                                text: 'Thank you for registering!',
+                                showConfirmButton: false,
+                                timer: 2000
+                            });
+                            setTimeout(function() {
+                                window.location.href = "https://temubakat.com/id/";
+                            }, 2000);
+                        },
+                        error: function(error) {
+                            var err = JSON.parse(error.responseText);
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Registration Failed : ' + err.message,
+                                text: 'An error occurred while registering. Please try again.',
+                                showConfirmButton: false,
+                                timer: 2000
+                            });
+                        }
+                    });
+                } else {
+                    // Show error message for unfilled required fields
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Validation Error',
+                        text: 'Please fill in all required fields.',
+                        showConfirmButton: false,
+                        timer: 2000
+                    });
+                }
             });
         });
     </script>
