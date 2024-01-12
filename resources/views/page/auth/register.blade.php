@@ -10,13 +10,13 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
     <!-- App favicon -->
-    <link rel="shortcut icon" href="{{ asset('assets/images/favicon.ico') }}" />
+    <link rel="shortcut icon" href="{{ asset('assets-dashboard/images/favicon.ico') }}" />
 
 
-    <link rel="stylesheet" href="{{ asset('assets/libs/swiper/swiper-bundle.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets-dashboard/libs/swiper/swiper-bundle.min.css') }}">
 
-    <link rel="stylesheet" href="{{ asset('assets/css/icons.css') }}" />
-    <link rel="stylesheet" href="{{ asset('assets/css/tailwind.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets-dashboard/css/icons.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets-dashboard/css/tailwind.css') }}" />
 
 
 
@@ -184,7 +184,7 @@
                                             <h3 class="mt-4 text-white text-22">“Saya datang, saya lihat, saya menang”
                                             </h3>
                                             <div class="flex mt-6 mb-10 pt-4">
-                                                <img src="{{ asset('assets/images/julius-caesar-20220304-162003.jpg') }}"
+                                                <img src="{{ asset('assets-dashboard/images/julius-caesar-20220304-162003.jpg') }}"
                                                     class="h-12 w-12 rounded-full" alt="...">
                                                 <div class="flex-1 ltr:ml-3 rtl:mr-3 mb-4">
                                                     <h5 class="font-size-18 text-white">Julius Caesar</h5>
@@ -198,7 +198,7 @@
                                             <h3 class="mt-4 text-white text-22">“Jangan menunggu peluang, buatlah
                                                 sendiri.”</h3>
                                             <div class="flex mt-6 mb-10 pt-4">
-                                                <img src="{{ asset('assets/images/bradley-whitford-e43bc8bc777f4facb229597eaefd038d.jpg') }}"
+                                                <img src="{{ asset('assets-dashboard/images/bradley-whitford-e43bc8bc777f4facb229597eaefd038d.jpg') }}"
                                                     class="h-12 w-12 rounded-full" alt="...">
                                                 <div class="flex-1 ltr:ml-3 rtl:mr-3 mb-4">
                                                     <h5 class="font-size-18 text-white">Bradley Whitford</h5>
@@ -212,7 +212,7 @@
                                             <h3 class="mt-4 text-white text-22">“Hidup ini seperti bersepeda, untuk
                                                 menjaga keseimbangan, Anda harus terus bergerak.”</h3>
                                             <div class="flex mt-6 mb-10 pt-4">
-                                                <img src="{{ asset('assets/images/albert.jpg') }}"
+                                                <img src="{{ asset('assets-dashboard/images/albert.jpg') }}"
                                                     class="h-12 w-12 rounded-full" alt="...">
                                                 <div class="flex-1 ltr:ml-3 rtl:mr-3 mb-4">
                                                     <h5 class="font-size-18 text-white">Albert Einstein</h5>
@@ -245,17 +245,17 @@
         </a>
     </div> --}}
 
-    <script src="{{ asset('assets/libs/@popperjs/core/umd/popper.min.js') }}"></script>
-    <script src="{{ asset('assets/libs/feather-icons/feather.min.js') }}"></script>
-    <script src="{{ asset('assets/libs/metismenujs/metismenujs.min.js') }}"></script>
-    <script src="{{ asset('assets/libs/simplebar/simplebar.min.js') }}"></script>
-    <script src="{{ asset('assets/libs/feather-icons/feather.min.js') }}"></script>
+    <script src="{{ asset('assets-dashboard/libs/@popperjs/core/umd/popper.min.js') }}"></script>
+    <script src="{{ asset('assets-dashboard/libs/feather-icons/feather.min.js') }}"></script>
+    <script src="{{ asset('assets-dashboard/libs/metismenujs/metismenujs.min.js') }}"></script>
+    <script src="{{ asset('assets-dashboard/libs/simplebar/simplebar.min.js') }}"></script>
+    <script src="{{ asset('assets-dashboard/libs/feather-icons/feather.min.js') }}"></script>
 
-    <script src="{{ asset('assets/libs/swiper/swiper-bundle.min.js') }}"></script>
+    <script src="{{ asset('assets-dashboard/libs/swiper/swiper-bundle.min.js') }}"></script>
 
-    <script src="{{ asset('assets/js/pages/login.init.js') }}"></script>
+    <script src="{{ asset('assets-dashboard/js/pages/login.init.js') }}"></script>
 
-    <script src="{{ asset('assets/js/app.js') }}"></script>
+    <script src="{{ asset('assets-dashboard/js/app.js') }}"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>

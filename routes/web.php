@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\LoginRegisterController;
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -12,8 +14,19 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-
 Route::get('/', function () {
-    return view('welcome');
-});
+    return redirect()->route('login.index');
+})->middleware('guest');
+Route::get('/register', function () {
+    return view('page.auth.register');
+})->name('register.index');
 Route::post('/users', [\App\Http\Controllers\UserController::class, 'store'])->name('users.store');
+Route::get('/login', [LoginRegisterController::class, 'login'])->name('login.index');
+Route::post('/authenticate', [LoginRegisterController::class, 'authenticate'])->name('login.post');
+
+Route::middleware(['no_auth'])->group(function () {
+    Route::get('me', [ProfileController::class, 'index'])->name('profile.me');
+    Route::post('{user}/me', [ProfileController::class, 'store'])->name('profile.store');
+
+    Route::get('logout', [LoginRegisterController::class, 'logout'])->name('logout');
+});
