@@ -34,7 +34,7 @@ class LoginRegisterController extends Controller
         ];
 
         $auth = Auth::attempt($credentials);
-        $roleHome = Cache::remember('role-home', now()->addHours(24), function () {
+        $roleHome = Cache::remember('role-home', now()->addHour(), function () {
             $dataRaw = RoleHome::get();
             $data = $dataRaw->pluck('home', 'name')->toArray();
             return $data;

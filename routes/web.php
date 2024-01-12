@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Admin\HomeController as AdminHomeController;
+use App\Http\Controllers\User\HomeController as UserHomeController;
 use App\Http\Controllers\LoginRegisterController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -27,6 +29,13 @@ Route::post('/authenticate', [LoginRegisterController::class, 'authenticate'])->
 Route::middleware(['no_auth'])->group(function () {
     Route::get('me', [ProfileController::class, 'index'])->name('profile.me');
     Route::post('{user}/me', [ProfileController::class, 'store'])->name('profile.store');
+    Route::prefix('admin')->as('admin.')->middleware(['role:admin', 'auth'])->group(function () {
+        Route::get('dashboard', [AdminHomeController::class, 'index'])->name('dashboard');
+    });
+
+    Route::prefix('user')->as('user.')->middleware(['role:user', 'auth'])->group(function () {
+        Route::get('dashboard', [UserHomeController::class, 'index'])->name('dashboard');
+    });
 
     Route::get('logout', [LoginRegisterController::class, 'logout'])->name('logout');
 });

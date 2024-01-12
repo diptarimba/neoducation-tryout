@@ -10,7 +10,7 @@
                     <x-sidebar.divider title="Menu" />
                     <x-sidebar.first-single title="Dashboard" key="dashboard" icon="home"
                         url="{{ route('admin.dashboard') }}" />
-                    <x-sidebar.first-parent title="Data" icon="users" key="apps" url="/">
+                    {{-- <x-sidebar.first-parent title="Data" icon="users" key="apps" url="/">
                         <x-sidebar.child title="Admin" url="{{ route('admin.admin.index') }}" />
                         <x-sidebar.child title="Mahasiswa" url="{{ route('admin.student.index') }}" />
                         <x-sidebar.child title="Merchant" url="{{ route('admin.merchant.index') }}" />
@@ -24,16 +24,16 @@
                     <x-sidebar.first-parent title="Konfigurasi" icon="settings" key="apps"
                         url="{{ route('admin.compensation.index') }}">
                         <x-sidebar.child title="Kompensasi" url="{{ route('admin.compensation.index') }}" />
-                    </x-sidebar.first-parent>
+                    </x-sidebar.first-parent> --}}
                 @elseif (auth()->user()->hasRole('merchant'))
                     <x-sidebar.divider title="Menu" />
                     <x-sidebar.first-single title="Dashboard" key="dashboard" icon="home"
                         url="{{ route('merchant.dashboard') }}" />
-                    <x-sidebar.first-single title="Transaction" key="dashboard" icon="plus-circle"
+                    {{-- <x-sidebar.first-single title="Transaction" key="dashboard" icon="plus-circle"
                         url="{{ route('merchant.list.index') }}" />
                     <x-sidebar.first-single title="Withdraw" key="dashboard" icon="dollar-sign"
-                        url="{{ route('merchant.cashout.index') }}" />
-                @else
+                        url="{{ route('merchant.cashout.index') }}" /> --}}
+                {{-- @else
                     <x-sidebar.divider title="Menu" />
                     <x-sidebar.first-single title="Dashboard" key="dashboard" icon="home"
                         url="{{ route('bank.dashboard') }}" />
@@ -42,7 +42,7 @@
                     <x-sidebar.first-single title="Withdraw" key="bank" icon="log-out"
                         url="{{ route('bank.cashout') }}" />
                     <x-sidebar.first-single title="Deposit" key="bank" icon="log-in"
-                        url="{{ route('bank.deposit') }}" />
+                        url="{{ route('bank.deposit') }}" /> --}}
                 @endif
             </ul>
         </div>

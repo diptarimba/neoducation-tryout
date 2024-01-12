@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\RoleHome;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Permission;
@@ -18,12 +19,14 @@ class RoleAndPermissionSeeder extends Seeder
             'admin' => [
                 'permission' => [
                     'view dashboard'
-                ]
+                ],
+                'home' => 'admin.dashboard'
             ],
             'user' => [
                 'permission' => [
                     'view dashboard'
-                ]
+                ],
+                'home' => 'user.dashboard'
             ]
         ];
 
@@ -38,6 +41,10 @@ class RoleAndPermissionSeeder extends Seeder
                 ]);
                 $role->givePermissionTo($permission);
             }
+            RoleHome::firstOrCreate([
+                'name' => $key,
+                'home' => $value['home']
+            ]);
         }
     }
 }
