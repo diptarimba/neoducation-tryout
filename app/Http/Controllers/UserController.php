@@ -29,6 +29,7 @@ class UserController extends Controller
             $user = User::create(array_merge($request->all(), [
                 'password' => bcrypt($request->password),
             ]));
+            $user->assignRole('user');
 
             return response()->json($user, 200);
         } catch (\Throwable $th) {
