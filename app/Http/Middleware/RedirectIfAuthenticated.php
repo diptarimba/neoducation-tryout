@@ -24,10 +24,15 @@ class RedirectIfAuthenticated
             $data = $dataRaw->pluck('home', 'name')->toArray();
             return $data;
         });
-        $auth = Auth()->user()->getRoleNames()[0] ?? null;
+        $guards = empty($guards) ? [null] : $guards;
 
-        if ($auth) {
-            return redirect()->route($roleHome[$auth]);
+        foreach ($guards as $guard) {
+            if (Auth::guard($guard)->check()) {
+                $authHome = Auth()->user()->getRoleNames()[0] ?? null;
+                if ($authHome) {
+                    return redirect()->route($roleHome[$authHome]);
+                }
+            }
         }
 
         return $next($request);
