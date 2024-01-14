@@ -5,8 +5,41 @@ namespace App\Http\Controllers;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
+use Illuminate\Support\Str;
 
 class Controller extends BaseController
 {
     use AuthorizesRequests, ValidatesRequests;
+
+    const CLASS_BUTTON_PRIMARY = 'btn m-1 text-white bg-violet-500 border-violet-500 hover:bg-violet-600 hover:border-violet-600 focus:bg-violet-600 focus:border-violet-600 focus:ring focus:ring-violet-500/30 active:bg-violet-600 active:border-violet-600';
+    const CLASS_BUTTON_SUCCESS = 'btn text-white bg-green-500 border-green-500 hover:bg-green-600 hover:border-green-600 focus:bg-green-600 focus:border-green-600 focus:ring focus:ring-green-500/30 active:bg-green-600 active:border-green-600';
+    const CLASS_BUTTON_DANGER = 'btn m-1 text-white bg-red-500 border-red-500 hover:bg-red-600 hover:border-red-600 focus:bg-red-600 focus:border-red-600 focus:ring focus:ring-red-500/30 active:bg-red-600 active:border-red-600';
+
+    public function getActionColumn($data, $path = '', $prefix = 'admin')
+    {
+        $ident = Str::random(10);
+        $editBtn = route("$prefix.$path.edit", $data->id);
+        $deleteBtn = route("$prefix.$path.destroy", $data->id);
+        $buttonAction = '<a href="' . $editBtn . '" class="' . self::CLASS_BUTTON_PRIMARY . '">Edit</a>';
+        $buttonAction .= '<button type="button" onclick="delete_data(\'form' . $ident . '\')"class="' . self::CLASS_BUTTON_DANGER . '">Delete</button>' . '<form id="form' . $ident . '" action="' . $deleteBtn . '" method="post"> <input type="hidden" name="_token" value="' . csrf_token() . '" /> <input type="hidden" name="_method" value="DELETE"> </form>';
+        return $buttonAction;
+    }
+
+    public function createMetaPageData($id = null, $name = '', $path = '', $prefix = 'admin')
+    {
+        $data = [
+            'title' => "Create $name Data",
+            'url' => route("$prefix.$path.store"),
+            'home' => route("$prefix.$path.index")
+        ];
+        if (!is_null($id)) {
+            $data = [
+                'title' => "Update $name Data",
+                'url' => route("$prefix.$path.update", $id),
+                'home' => route("$prefix.$path.index")
+            ];
+        }
+
+        return $data;
+    }
 }
