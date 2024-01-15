@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\HomeController as AdminHomeController;
+use App\Http\Controllers\Admin\QuestionController;
 use App\Http\Controllers\Admin\SubjectController;
 use App\Http\Controllers\User\HomeController as UserHomeController;
 use App\Http\Controllers\LoginRegisterController;
@@ -33,7 +34,8 @@ Route::middleware(['no_auth'])->group(function () {
     Route::post('{user}/me', [ProfileController::class, 'store'])->name('profile.store');
     Route::prefix('admin')->as('admin.')->middleware(['role:admin', 'auth'])->group(function () {
         Route::get('dashboard', [AdminHomeController::class, 'index'])->name('dashboard');
-        Route::resource('subject/test', SubjectTest::class);
+        Route::resource('subject/test.question', QuestionController::class)->parameter('test', 'subjectTest');
+        Route::resource('subject/test', SubjectTest::class)->parameter('test', 'subjectTest');
         Route::resource('subject', SubjectController::class);
     });
 
