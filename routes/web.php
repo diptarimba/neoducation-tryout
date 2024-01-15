@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\SubjectController;
 use App\Http\Controllers\User\HomeController as UserHomeController;
 use App\Http\Controllers\LoginRegisterController;
 use App\Http\Controllers\ProfileController;
+use App\Models\SubjectTest;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -32,6 +33,7 @@ Route::middleware(['no_auth'])->group(function () {
     Route::post('{user}/me', [ProfileController::class, 'store'])->name('profile.store');
     Route::prefix('admin')->as('admin.')->middleware(['role:admin', 'auth'])->group(function () {
         Route::get('dashboard', [AdminHomeController::class, 'index'])->name('dashboard');
+        Route::resource('subject/test', SubjectTest::class);
         Route::resource('subject', SubjectController::class);
     });
 
