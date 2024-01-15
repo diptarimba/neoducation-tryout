@@ -95,7 +95,6 @@ class SubjectTestController extends Controller
         $data = array_merge($request->all(), [
             'start_at' => strtotime($request->start_at),
             'end_at' => strtotime($request->end_at),
-            'created_by_id' => auth()->user()->id
         ]);
 
         $subjectTest->update($data);
