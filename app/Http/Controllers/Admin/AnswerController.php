@@ -7,6 +7,7 @@ use App\Models\Answer;
 use App\Models\Question;
 use App\Models\SubjectTest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class AnswerController extends Controller
 {
@@ -18,17 +19,30 @@ class AnswerController extends Controller
         if($request->ajax())
         {
             $answer = Answer::with('question')->whereHas('question', function($query) use ($question){
-                $query->where('id', $question->id);
+                $query->where('questions.id', $question->id);
             })->select();
             return datatables()->of($answer)
             ->addIndexColumn()
-            ->addColumn('action', function($query){
-                return $this->getActionColumn($query, 'Answer', 'answer');
+            ->addColumn('is_true', function($query){
+                return $query->is_true ? 'Benar' : 'Tidak';
+            })
+            ->addColumn('action', function($query) use ($subjectTest, $question){
+                return $this->getActionColumn($query, $subjectTest->id, $question->id);
             })
             ->make(true);
         }
 
         return view('page.admin-dashboard.subject.test.answer.index', compact('subjectTest', 'question'));
+    }
+
+    public function getActionColumn($data, $subjectTestId = '', $questionId = '')
+    {
+        $ident = Str::random(10);
+        $editBtn = route('admin.test.answer.edit', [$subjectTestId, $questionId, $data->id]);
+        $deleteBtn = route('admin.test.answer.destroy', [$subjectTestId, $questionId, $data->id]);
+        $buttonAction = '<a href="' . $editBtn . '" class="' . self::CLASS_BUTTON_PRIMARY . '">Edit</a>';
+        $buttonAction .= '<button type="button" onclick="delete_data(\'form' . $ident . '\')"class="' . self::CLASS_BUTTON_DANGER . '">Delete</button>' . '<form id="form' . $ident . '" action="' . $deleteBtn . '" method="post"> <input type="hidden" name="_token" value="' . csrf_token() . '" /> <input type="hidden" name="_method" value="DELETE"> </form>';
+        return $buttonAction;
     }
 
     /**
@@ -39,9 +53,9 @@ class AnswerController extends Controller
         $data = [
             'title' => "Create Question Data",
             'url' => route('admin.test.answer.store', [$subjectTest->id, $question->id]),
-            'home' => route('admin.test.answer.index', $subjectTest->id),
+            'home' => route('admin.test.answer.index', [$subjectTest->id, $question->id]),
         ];
-        return view('page.admin-dashboard.subject.test.answer.create-edit');
+        return view('page.admin-dashboard.subject.test.answer.create-edit', compact('data'));
     }
 
     /**
@@ -51,22 +65,25 @@ class AnswerController extends Controller
     {
         $request->validate([
             'answer' => 'required',
-            'is_true' => 'required|boolean'
+            'is_true' => 'sometimes'
         ]);
 
+        $requestIsTrue = $request->is_true == 'on';
+
         // ketika ada yang di set true, maka yang sudah ter set true, akan dikembalikan ke false
-        if ($request->is_true) {
+        if ($requestIsTrue) {
             $this->helperSetAnswerToFalse($question->id);
         } else {
             // ketika ada yang di set false, seminimalnya sudah ada jawaban yang sudah dijadikan true
             $checkTrue = $this->helperGetCorrectAnswerExceptId($question->id, null);
             if (!$checkTrue) {
-                return redirect()->route('admin.test.answer.index', [$subjectTest->id, $question->id])->with('error', 'Please choose true answer first');
+                return redirect()->route('admin.test.answer.index', [$subjectTest->id, $question->id])->with('error', 'Please create correct answer first');
             }
         }
 
         // create new answer
         Answer::create(array_merge($request->all(), [
+            'is_true' => $requestIsTrue,
             'question_id' => $question->id
         ]));
 
@@ -89,9 +106,9 @@ class AnswerController extends Controller
         $data = [
             'title' => "Create Question Data",
             'url' => route('admin.test.answer.update', [$subjectTest->id, $question->id, $answer->id]),
-            'home' => route('admin.test.answer.index', $subjectTest->id),
+            'home' => route('admin.test.answer.index', [$subjectTest->id, $question->id]),
         ];
-        return view('page.admin-dashboard.subject.test.answer.create-edit');
+        return view('page.admin-dashboard.subject.test.answer.create-edit', compact('data', 'answer'));
     }
 
     /**
@@ -99,23 +116,28 @@ class AnswerController extends Controller
      */
     public function update(SubjectTest $subjectTest, Question $question, Answer $answer, Request $request)
     {
+
         $request->validate([
             'answer' => 'required',
-            'is_true' => 'required|boolean'
+            'is_true' => 'sometimes'
         ]);
 
+        $isTrue = $request->is_true == 'on';
+
         // ketika ada yang di set true, maka yang sudah ter set true, akan dikembalikan ke false
-        if ($request->is_true) {
+        if ($isTrue) {
             $this->helperSetAnswerToFalse($question->id);
         } else {
             // ketika ada yang di set false, seminimalnya sudah ada jawaban yang sudah dijadikan true
             $checkTrue = $this->helperGetCorrectAnswerExceptId($question->id, $answer->id);
             if (!$checkTrue) {
-                return redirect()->route('admin.test.answer.index', [$subjectTest->id, $question->id])->with('error', 'Please choose true answer first');
+                return redirect()->route('admin.test.answer.index', [$subjectTest->id, $question->id])->with('error', 'Please choose correct answer first');
             }
         }
 
-        $answer->update($request->all());
+        $answer->update(array_merge($request->all(), [
+            'is_true' => $isTrue
+        ]));
 
         return redirect()->route('admin.test.answer.index', [$subjectTest->id, $question->id])->with('success', 'Answer Updated Successfully');
     }
@@ -126,6 +148,10 @@ class AnswerController extends Controller
     public function destroy(SubjectTest $subjectTest, Question $question, Answer $answer)
     {
         try {
+            $checkTrue = $this->helperGetCorrectAnswerExceptId($question->id, $answer->id);
+            if (!$checkTrue) {
+                return redirect()->route('admin.test.answer.index', [$subjectTest->id, $question->id])->with('error', 'Please choose correct answer first before delete the correct answer');
+            }
             $answer->delete();
             return redirect()->route('admin.test.answer.index', [$subjectTest->id, $question->id])->with('success', 'Answer Deleted Successfully');
         } catch (\Throwable $th) {
@@ -147,8 +173,8 @@ class AnswerController extends Controller
         if ($answerId){
             $checkTrue = $checkTrue->where('id', '!=', $answerId);
         }
-        $checkTrue = $checkTrue->whereFirst('is_true', true);
-        return $checkTrue;
+        $checkTrue = $checkTrue->where('is_true', true);
+        return $checkTrue->first();
 
     }
 }

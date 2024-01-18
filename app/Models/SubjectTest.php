@@ -20,7 +20,7 @@ class SubjectTest extends Model
 
     public function question()
     {
-        return $this->hasMany(Question::class, 'subject_id', 'id');
+        return $this->hasMany(Question::class, 'test_id', 'id');
     }
 
     public function user_test()
@@ -31,5 +31,10 @@ class SubjectTest extends Model
     public function creator()
     {
         return $this->belongsTo(User::class, 'created_by_id', 'id');
+    }
+
+    public function subject()
+    {
+        return $this->belongsTo(Subject::class, 'subject_id', 'id');
     }
 }

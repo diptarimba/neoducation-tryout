@@ -9,7 +9,12 @@
         <x-form.base url="{{ $data['url'] }}" method="POST">
             <x-form.input name="answer" label="Answer" placeholder="input the choice of the answers"
                 value="{{ $answer->answer ?? '' }}" />
-            <x-form.switch label="Is Correct?" name="is_true" {{!$answer->is_true ?: 'checked'}}/>
+                {{-- @dd(isset($answer->is_true) ? 'checked' : '') --}}
+            @if(isset($answer->is_true) && $answer->is_true)
+                <x-form.switch label="Is Correct?" name="is_true" checked />
+            @else
+                <x-form.switch label="Is Correct?" name="is_true" />
+            @endif
             <x-button.submit />
             <x-button.cancel url="{{ $data['home'] }}" />
         </x-form.base>

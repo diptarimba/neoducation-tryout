@@ -10,21 +10,10 @@
                     <x-sidebar.divider title="Menu" />
                     <x-sidebar.first-single title="Dashboard" key="dashboard" icon="home"
                         url="{{ route('admin.dashboard') }}" />
-                    {{-- <x-sidebar.first-parent title="Data" icon="users" key="apps" url="/">
-                        <x-sidebar.child title="Admin" url="{{ route('admin.admin.index') }}" />
-                        <x-sidebar.child title="Mahasiswa" url="{{ route('admin.student.index') }}" />
-                        <x-sidebar.child title="Merchant" url="{{ route('admin.merchant.index') }}" />
-                        <x-sidebar.child title="App User" url="{{ route('admin.user.app.index') }}" />
-                    </x-sidebar.first-parent>
-                    <x-sidebar.first-parent title="Tagihan" icon="check-circle" key="apps" url="/">
-                        <x-sidebar.child title="Tagihan" url="{{ route('admin.utility.index') }}" />
-                        <x-sidebar.child title="Penerima Tagihan" url="{{ route('admin.core.user.index') }}" />
-                        <x-sidebar.child title="Kategori Tagihan" url="{{ route('admin.category.index') }}" />
-                    </x-sidebar.first-parent>
-                    <x-sidebar.first-parent title="Konfigurasi" icon="settings" key="apps"
-                        url="{{ route('admin.compensation.index') }}">
-                        <x-sidebar.child title="Kompensasi" url="{{ route('admin.compensation.index') }}" />
-                    </x-sidebar.first-parent> --}}
+                    <x-sidebar.first-single title="Mata Pelajaran" key="subject" icon="check-circle"
+                        url="{{ route('admin.subject.index') }}" />
+                    <x-sidebar.first-single title="Mata Ujian" key="subjecttest" icon="clipboard"
+                        url="{{ route('admin.test.index') }}" />
                 @elseif (auth()->user()->hasRole('merchant'))
                     <x-sidebar.divider title="Menu" />
                     <x-sidebar.first-single title="Dashboard" key="dashboard" icon="home"

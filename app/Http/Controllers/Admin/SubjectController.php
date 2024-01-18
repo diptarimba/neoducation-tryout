@@ -17,6 +17,9 @@ class SubjectController extends Controller
             $subject = Subject::select();
             return datatables()->of($subject)
             ->addIndexColumn()
+            ->addColumn('action', function($query){
+                return $this->getActionColumn($query, 'subject');
+            })
             ->make(true);
         }
 
@@ -28,8 +31,8 @@ class SubjectController extends Controller
      */
     public function create()
     {
-        $data = $this->getActionColumn(null, 'Subject', 'subject');
-        return view('page.admin-dashboard.subject.create-edit');
+        $data = $this->createMetaPageData(null, 'Subject', 'subject');
+        return view('page.admin-dashboard.subject.create-edit', compact('data'));
     }
 
     /**
@@ -59,8 +62,8 @@ class SubjectController extends Controller
      */
     public function edit(Subject $subject)
     {
-        $data = $this->getActionColumn($subject->id, 'Subject', 'subject');
-        return view('page.admin-dashboard.subject.create-edit', compact('subject'));
+        $data = $this->createMetaPageData($subject->id, 'Subject', 'subject');
+        return view('page.admin-dashboard.subject.create-edit', compact('subject', 'data'));
     }
 
     /**

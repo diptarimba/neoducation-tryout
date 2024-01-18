@@ -251,23 +251,24 @@
     <script>
         function delete_data(identify) {
             Swal.fire({
-                title: 'Are you sure?',
-                text: "You won't be able to revert this!",
-                icon: 'warning',
+                title: "Apakah kamu yakin?",
+                text: "Jika di hapus, data yang terkait tidak bisa kembali!",
+                icon: "warning",
                 showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, delete it!'
-            }).then((result) => {
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Ya, saya yakin!",
+                cancelButtonText: "Tidak"
+            }).then(function(result) {
                 if (result.isConfirmed) {
                     Swal.fire(
-                        'Deleted!',
-                        'Your file has been deleted.',
+                        'Terhapus!',
+                        'Data berhasil dihapus.',
                         'success'
                     )
                     $(`#${identify}`).submit();
                 }
-            })
+            });
         }
     </script>
 

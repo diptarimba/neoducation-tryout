@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Subject;
 use App\Models\SubjectTest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class SubjectTestController extends Controller
 {
@@ -19,13 +20,41 @@ class SubjectTestController extends Controller
             $subjectTest = SubjectTest::select();
             return datatables()->of($subjectTest)
             ->addIndexColumn()
+            ->addColumn('start_at', function($query){
+                return $query->start_at ? date('d F Y H:i', $query->start_at) : '';
+            })
+            ->addColumn('end_at', function($query){
+                return $query->end_at ? date('d F Y H:i', $query->end_at) : '';
+            })
+            ->addColumn('status', function($query){
+                if (time() >= $query->start_at && time() <= $query->end_at) {
+                    return '<span class="badge '.self::CLASS_BUTTON_PRIMARY.' text-white py-1 px-3 rounded-full text-xs">Sedang Berlangsung</span>';
+                } else if (time() < $query->start_at) {
+                    return '<span class="badge '.self::CLASS_BUTTON_SUCCESS.'">Belum Mulai</span>';
+                } else {
+                    return '<span class="badge '.self::CLASS_BUTTON_DANGER.'">Selesai</span>';
+                }
+            })
             ->addColumn('action', function($query){
                 return $this->getActionColumn($query, 'test');
             })
+            ->rawColumns(['action', 'status'])
             ->make(true);
         }
 
         return view('page.admin-dashboard.subject.test.index');
+    }
+
+    public function getActionColumn($data, $subjectTestId = '', $prefix = 'admin')
+    {
+        $ident = Str::random(10);
+        $editBtn = route('admin.test.edit', $data->id);
+        $deleteBtn = route('admin.test.destroy', $data->id);
+        $questionBtn = route('admin.test.question.index', $data->id);
+        $buttonAction = '<a href="' . $editBtn . '" class="' . self::CLASS_BUTTON_PRIMARY . '">Edit</a>';
+        $buttonAction .= '<a href="' . $questionBtn . '" class="' . self::CLASS_BUTTON_INFO . '">Question List</a>';
+        $buttonAction .= '<button type="button" onclick="delete_data(\'form' . $ident . '\')"class="' . self::CLASS_BUTTON_DANGER . '">Delete</button>' . '<form id="form' . $ident . '" action="' . $deleteBtn . '" method="post"> <input type="hidden" name="_token" value="' . csrf_token() . '" /> <input type="hidden" name="_method" value="DELETE"> </form>';
+        return $buttonAction;
     }
 
     /**
@@ -45,7 +74,7 @@ class SubjectTestController extends Controller
     {
         $request->validate([
             'name' => 'required',
-            'subject_id' => 'required',
+            'subject_id' => 'required|exists:subjects,id',
             'start_at' => 'required',
             'end_at' => 'required',
             'enrolled_code' => 'required'
@@ -76,7 +105,8 @@ class SubjectTestController extends Controller
     public function edit(SubjectTest $subjectTest)
     {
         $data = $this->createMetaPageData($subjectTest->id, 'Subject Test', 'test');
-        return view('page.admin-dashboard.subject.test.create-edit', compact('data', 'subjectTest'));
+        $subject = Subject::pluck('name', 'id');
+        return view('page.admin-dashboard.subject.test.create-edit', compact('data', 'subjectTest', 'subject'));
     }
 
     /**

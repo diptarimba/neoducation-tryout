@@ -2,11 +2,11 @@
 
 
 @section('page-link', '/')
-@section('page-title', 'Mata Pelajaran')
+@section('page-title', 'Jawaban')
 @section('sub-page-title', 'Index')
 
 @section('content')
-    <x-util.card title="Mata Pelajaran" add url="{{route('admin.test.answer.create', [$subjectTest->id, $question->id])}}">
+    <x-util.card title="Jawaban" add url="{{route('admin.test.answer.create', [$subjectTest->id, $question->id])}}">
         <table id="datatable" class="table w-full pt-4 text-gray-700 dark:text-zinc-100 datatables-target-exec">
             <thead>
                 <tr>

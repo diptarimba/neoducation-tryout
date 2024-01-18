@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Question;
 use App\Models\SubjectTest;
 use Illuminate\Http\Request;
+use Illuminate\SUpport\Str;
 
 class QuestionController extends Controller
 {
@@ -19,8 +20,11 @@ class QuestionController extends Controller
             $question = Question::select();
             return datatables()->of($question)
             ->addIndexColumn()
-            ->addColumn('action', function($query){
-                return $this->getActionColumn($query, 'Question', 'question');
+            ->addColumn('action', function($query) use ($subjectTest){
+                return $this->getActionColumn($query, $subjectTest->id, 'admin');
+            })
+            ->addColumn('notes', function($query){
+                return $query->answer()->count() < 4 ? 'Jawaban kurang dari 4 pilihan' : '';
             })
             ->rawColumns(['action'])
             ->make(true);
@@ -29,13 +33,29 @@ class QuestionController extends Controller
         return view('page.admin-dashboard.subject.test.question.index', compact('subjectTest'));
     }
 
+    public function getActionColumn($data, $subjectTestId = '', $prefix = 'admin')
+    {
+        $ident = Str::random(10);
+        $editBtn = route('admin.test.question.edit', [$subjectTestId, $data->id]);
+        $deleteBtn = route('admin.test.question.destroy', [$subjectTestId, $data->id]);
+        $answerBtn = route('admin.test.answer.index', [$subjectTestId, $data->id]);
+        $buttonAction = '<a href="' . $editBtn . '" class="' . self::CLASS_BUTTON_PRIMARY . '">Edit</a>';
+        $buttonAction .= '<a href="' . $answerBtn . '" class="' . self::CLASS_BUTTON_INFO . '">Jawaban</a>';
+        $buttonAction .= '<button type="button" onclick="delete_data(\'form' . $ident . '\')"class="' . self::CLASS_BUTTON_DANGER . '">Delete</button>' . '<form id="form' . $ident . '" action="' . $deleteBtn . '" method="post"> <input type="hidden" name="_token" value="' . csrf_token() . '" /> <input type="hidden" name="_method" value="DELETE"> </form>';
+        return $buttonAction;
+    }
+
     /**
      * Show the form for creating a new resource.
      */
     public function create(SubjectTest $subjectTest)
     {
-        $data = $this->createMetaPageData($subjectTest->id, 'Question', 'question');
-        return view('page.admin-dashboard.subject.test.question.create-edit');
+        $data = [
+            'title' => "Membuat Pertanyaan",
+            'url' => route('admin.test.question.store', $subjectTest->id),
+            'home' => route('admin.test.question.index', $subjectTest->id),
+        ];
+        return view('page.admin-dashboard.subject.test.question.create-edit', compact('data'));
     }
 
     /**
@@ -48,7 +68,7 @@ class QuestionController extends Controller
         ]);
 
         Question::create(array_merge($request->all(), [
-            'subject_test_id' => $subjectTest->id
+            'test_id' => $subjectTest->id
         ]));
 
         return redirect()->route('admin.test.question.index', $subjectTest->id)->with('success', 'Question Created Successfully');
@@ -68,7 +88,7 @@ class QuestionController extends Controller
     public function edit(SubjectTest $subjectTest, Question $question)
     {
         $data = [
-            'title' => "Create Question Data",
+            'title' => "Memperbarui Pertanyaan",
             'url' => route('admin.test.question.update', [$subjectTest->id, $question->id]),
             'home' => route('admin.test.question.index', $subjectTest->id),
         ];

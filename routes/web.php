@@ -4,10 +4,10 @@ use App\Http\Controllers\Admin\AnswerController;
 use App\Http\Controllers\Admin\HomeController as AdminHomeController;
 use App\Http\Controllers\Admin\QuestionController;
 use App\Http\Controllers\Admin\SubjectController;
+use App\Http\Controllers\Admin\SubjectTestController;
 use App\Http\Controllers\User\HomeController as UserHomeController;
 use App\Http\Controllers\LoginRegisterController;
 use App\Http\Controllers\ProfileController;
-use App\Models\SubjectTest;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -44,7 +44,7 @@ Route::middleware(['no_auth'])->group(function () {
         Route::resource('subject/test.q', QuestionController::class, [
             'names' => 'test.question'
         ])->parameter('test', 'subjectTest')->parameter('q', 'question');
-        Route::resource('subject/test', SubjectTest::class)->parameter('test', 'subjectTest');
+        Route::resource('subject/test', SubjectTestController::class)->parameter('test', 'subjectTest');
         Route::resource('subject', SubjectController::class);
     });
 

@@ -10,13 +10,13 @@ class Question extends Model
     use HasFactory;
 
     protected $fillable = [
-        'subject_id',
+        'test_id',
         'question'
     ];
 
     public function subject_test()
     {
-        return $this->belongsTo(SubjectTest::class, 'subject_id', 'id');
+        return $this->belongsTo(SubjectTest::class, 'test_id', 'id');
     }
 
     public function answer()
