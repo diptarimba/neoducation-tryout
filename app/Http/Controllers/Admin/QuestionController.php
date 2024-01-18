@@ -15,19 +15,18 @@ class QuestionController extends Controller
      */
     public function index(SubjectTest $subjectTest, Request $request)
     {
-        if ($request->ajax())
-        {
+        if ($request->ajax()) {
             $question = Question::select();
             return datatables()->of($question)
-            ->addIndexColumn()
-            ->addColumn('action', function($query) use ($subjectTest){
-                return $this->getActionColumn($query, $subjectTest->id, 'admin');
-            })
-            ->addColumn('notes', function($query){
-                return $query->answer()->count() < 4 ? 'Jawaban kurang dari 4 pilihan' : '';
-            })
-            ->rawColumns(['action'])
-            ->make(true);
+                ->addIndexColumn()
+                ->addColumn('action', function ($query) use ($subjectTest) {
+                    return $this->getActionColumn($query, $subjectTest->id, 'admin');
+                })
+                ->addColumn('notes', function ($query) {
+                    return $query->answer()->count() < 4 ? 'Jawaban kurang dari 4 pilihan' : '';
+                })
+                ->rawColumns(['action'])
+                ->make(true);
         }
 
         return view('page.admin-dashboard.subject.test.question.index', compact('subjectTest'));
@@ -65,7 +64,14 @@ class QuestionController extends Controller
     {
         $request->validate([
             'question' => 'required',
+            'image' => 'sometimes|max:2064|mimes:png,jpg,jpeg'
         ]);
+
+        if ($request->hasFile('file')) {
+            $image = $request->file('file');
+            $path = $image->storeAs('public/question', $image->hashName(), 'public');
+            $request->merge(['image' => asset('storage/public/question/' . $image->hashName())]);
+        }
 
         Question::create(array_merge($request->all(), [
             'test_id' => $subjectTest->id
@@ -104,6 +110,12 @@ class QuestionController extends Controller
         $request->validate([
             'question' => 'required'
         ]);
+
+        if ($request->hasFile('file')) {
+            $image = $request->file('file');
+            $path = $image->storeAs('public/question', $image->hashName(), 'public');
+            $request->merge(['image' => asset('storage/public/question/' . $image->hashName())]);
+        }
 
         $question->update($request->all());
 

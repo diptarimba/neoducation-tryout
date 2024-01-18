@@ -13,8 +13,8 @@
                     <th class="p-4 pr-8 border rtl:border-l-0 border-y-2 border-gray-50 dark:border-zinc-600">Id</th>
                     <th class="p-4 pr-8 border border-y-2 border-gray-50 dark:border-zinc-600 border-l-0">Name</th>
                     <th class="p-4 pr-8 border border-y-2 border-gray-50 dark:border-zinc-600 border-l-0">Start At</th>
-                    <th class="p-4 pr-8 border border-y-2 border-gray-50 dark:border-zinc-600 border-l-0">End At</th>
-                    <th class="p-4 pr-8 border border-y-2 border-gray-50 dark:border-zinc-600 border-l-0">Status</th>
+                    <th class="p-4 pr-8 border border-y-2 border-gray-50 dark:border-zinc-600 border-l-0">Duration</th>
+                    <th class="p-4 pr-8 border border-y-2 border-gray-50 dark:border-zinc-600 border-l-0">Jumlah Soal</th>
                     <th class="p-4 pr-8 border border-y-2 border-gray-50 dark:border-zinc-600 border-l-0">Enrolled Code</th>
                     <th class="p-4 pr-8 border border-y-2 border-gray-50 dark:border-zinc-600 border-l-0">Action</th>
                     </th>
@@ -30,8 +30,8 @@
 <x-datatables.single url="{{route('admin.test.index')}}">
     <x-datatables.column name="name"/>
     <x-datatables.column name="start_at"/>
-    <x-datatables.column name="end_at"/>
-    <x-datatables.column name="status"/>
+    <x-datatables.column name="duration"/>
+    <x-datatables.column name="question_count"/>
     <x-datatables.column name="enrolled_code"/>
     <x-datatables.action />
 </x-datatables.single>

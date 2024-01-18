@@ -15,31 +15,35 @@ class SubjectTestController extends Controller
      */
     public function index(Request $request)
     {
-        if($request->all())
-        {
+        if ($request->all()) {
             $subjectTest = SubjectTest::select();
             return datatables()->of($subjectTest)
-            ->addIndexColumn()
-            ->addColumn('start_at', function($query){
-                return $query->start_at ? date('d F Y H:i', $query->start_at) : '';
-            })
-            ->addColumn('end_at', function($query){
-                return $query->end_at ? date('d F Y H:i', $query->end_at) : '';
-            })
-            ->addColumn('status', function($query){
-                if (time() >= $query->start_at && time() <= $query->end_at) {
-                    return '<span class="badge '.self::CLASS_BUTTON_PRIMARY.' text-white py-1 px-3 rounded-full text-xs">Sedang Berlangsung</span>';
-                } else if (time() < $query->start_at) {
-                    return '<span class="badge '.self::CLASS_BUTTON_SUCCESS.'">Belum Mulai</span>';
-                } else {
-                    return '<span class="badge '.self::CLASS_BUTTON_DANGER.'">Selesai</span>';
-                }
-            })
-            ->addColumn('action', function($query){
-                return $this->getActionColumn($query, 'test');
-            })
-            ->rawColumns(['action', 'status'])
-            ->make(true);
+                ->addIndexColumn()
+                ->addColumn('start_at', function ($query) {
+                    return $query->start_at ? date('d F Y H:i', $query->start_at) : '';
+                })
+                ->addColumn('duration', function ($query) {
+                    $start = \Carbon\Carbon::parse($query->start_at);
+                    $end = \Carbon\Carbon::parse($query->end_at);
+                    return $start->diff($end)->format('%H:%I:%S');
+                })
+                ->addColumn('question_count', function ($query) {
+                    return $query->question()->count();
+                })
+                ->addColumn('status', function ($query) {
+                    if (time() >= $query->start_at && time() <= $query->end_at) {
+                        return '<span class="badge ' . self::CLASS_BUTTON_PRIMARY . ' text-white py-1 px-3 rounded-full text-xs">Sedang Berlangsung</span>';
+                    } else if (time() < $query->start_at) {
+                        return '<span class="badge ' . self::CLASS_BUTTON_SUCCESS . '">Belum Mulai</span>';
+                    } else {
+                        return '<span class="badge ' . self::CLASS_BUTTON_DANGER . '">Selesai</span>';
+                    }
+                })
+                ->addColumn('action', function ($query) {
+                    return $this->getActionColumn($query, 'test');
+                })
+                ->rawColumns(['action', 'status'])
+                ->make(true);
         }
 
         return view('page.admin-dashboard.subject.test.index');
