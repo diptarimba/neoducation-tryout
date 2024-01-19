@@ -31,7 +31,7 @@
             <div class="grid grid-cols-1 md:grid-cols-12 ">
                 <div class="col-span-12 md:col-span-5 lg:col-span-4 xl:col-span-3 relative z-50">
                     <div class="w-full bg-white xl:p-12 p-10 dark:bg-zinc-800">
-                        <div class="flex h-[90vh] flex-col">
+                        <div class="flex h-full flex-col">
                             <div class="mx-auto">
                                 <a href="/" class="">
                                     <span
