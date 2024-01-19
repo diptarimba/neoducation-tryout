@@ -13,25 +13,27 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
-        if($request->ajax())
-        {
+        if ($request->ajax()) {
             $search = $request->search['value'];
             $user = User::whereHas('roles', function ($query) {
                 $query->where('name', 'user');
             })
-            ->where(function($query) use ($search) {
-                $query->where('name', 'like', '%' . $search . '%')
-                      ->orWhere('phone', 'like', '%' . $search . '%')
-                      ->orWhere('school', 'like', '%' . $search . '%');
-            })
-            ->select();
+                ->where(function ($query) use ($search) {
+                    $query->where('name', 'like', '%' . $search . '%')
+                        ->orWhere('phone', 'like', '%' . $search . '%')
+                        ->orWhere('school', 'like', '%' . $search . '%');
+                })
+                ->select();
             return datatables()->of($user)
-            ->addIndexColumn()
-            ->addColumn('action', function($query){
-                return $this->getActionColumn($query, 'user');
-            })
-            ->rawColumns(['action'])
-            ->make(true);
+                ->addIndexColumn()
+                ->addColumn('action', function ($query) {
+                    return $this->getActionColumn($query, 'user');
+                })
+                ->addColumn('registered_at', function ($query) {
+                    return $query->created_at->diffForHumans();
+                })
+                ->rawColumns(['action', 'registered_at'])
+                ->make(true);
         }
 
         return view('page.admin-dashboard.user.index');

@@ -15,6 +15,7 @@
                         <th class="p-4 pr-8 border border-y-2 border-gray-50 dark:border-zinc-600 border-l-0">Name</th>
                         <th class="p-4 pr-8 border border-y-2 border-gray-50 dark:border-zinc-600 border-l-0">Phone</th>
                         <th class="p-4 pr-8 border border-y-2 border-gray-50 dark:border-zinc-600 border-l-0">School</th>
+                        <th class="p-4 pr-8 border border-y-2 border-gray-50 dark:border-zinc-600 border-l-0">Registered At</th>
                         <th class="p-4 pr-8 border border-y-2 border-gray-50 dark:border-zinc-600 border-l-0">Action</th>
                         </th>
                     </tr>
@@ -31,6 +32,7 @@
     <x-datatables.column name="name"/>
     <x-datatables.column name="phone"/>
     <x-datatables.column name="school"/>
+    <x-datatables.column name="registered_at"/>
     <x-datatables.action />
 </x-datatables.single>
 @endsection
