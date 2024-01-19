@@ -15,7 +15,16 @@ class UserController extends Controller
     {
         if($request->ajax())
         {
-            $user = User::role('user')->select();
+            $search = $request->search['value'];
+            $user = User::whereHas('roles', function ($query) {
+                $query->where('name', 'user');
+            })
+            ->where(function($query) use ($search) {
+                $query->where('name', 'like', '%' . $search . '%')
+                      ->orWhere('phone', 'like', '%' . $search . '%')
+                      ->orWhere('school', 'like', '%' . $search . '%');
+            })
+            ->select();
             return datatables()->of($user)
             ->addIndexColumn()
             ->addColumn('action', function($query){
@@ -57,7 +66,8 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        //
+        $data = $this->createMetaPageData($user, 'User', 'user');
+        return view('page.admin-dashboard.user.create-edit', compact('data', 'user'));
     }
 
     /**
@@ -73,6 +83,11 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        //
+        try {
+            $user->delete();
+            return redirect()->route('admin.user.index')->with('success', 'User Deleted Successfully');
+        } catch (\Throwable $th) {
+            return redirect()->route('admin.user.index')->with('error', $th->getMessage());
+        }
     }
 }
