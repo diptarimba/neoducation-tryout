@@ -16,24 +16,10 @@
                         url="{{ route('admin.test.index') }}" />
                     <x-sidebar.first-single title="Siswa" key="student" icon="users"
                         url="{{ route('admin.user.index') }}" />
-                @elseif (auth()->user()->hasRole('merchant'))
+                @elseif (auth()->user()->hasRole('user'))
                     <x-sidebar.divider title="Menu" />
                     <x-sidebar.first-single title="Dashboard" key="dashboard" icon="home"
-                        url="{{ route('merchant.dashboard') }}" />
-                    {{-- <x-sidebar.first-single title="Transaction" key="dashboard" icon="plus-circle"
-                        url="{{ route('merchant.list.index') }}" />
-                    <x-sidebar.first-single title="Withdraw" key="dashboard" icon="dollar-sign"
-                        url="{{ route('merchant.cashout.index') }}" /> --}}
-                {{-- @else
-                    <x-sidebar.divider title="Menu" />
-                    <x-sidebar.first-single title="Dashboard" key="dashboard" icon="home"
-                        url="{{ route('bank.dashboard') }}" />
-                    <x-sidebar.first-single title="Admin" key="bank" icon="users"
-                        url="{{ route('bank.admin.index') }}" />
-                    <x-sidebar.first-single title="Withdraw" key="bank" icon="log-out"
-                        url="{{ route('bank.cashout') }}" />
-                    <x-sidebar.first-single title="Deposit" key="bank" icon="log-in"
-                        url="{{ route('bank.deposit') }}" /> --}}
+                        url="{{ route('user.dashboard') }}" />
                 @endif
             </ul>
         </div>

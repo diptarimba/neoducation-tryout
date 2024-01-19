@@ -204,7 +204,7 @@
             <div>
                 <div class="dropdown relative ltr:mr-4 rtl:ml-4">
                     <button type="button" class="flex items-center px-4 py-5 border-x border-gray-50 bg-gray-50/30 dropdown-toggle dark:bg-zinc-700 dark:border-zinc-600 dark:text-gray-100" id="page-header-user-dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                        <img class="h-8 w-8 rounded-full ltr:xl:mr-2 rtl:xl:ml-2" src="{{ Auth::user()->picture }}" alt="Header Avatar">
+                        <img class="h-8 w-8 rounded-full ltr:xl:mr-2 rtl:xl:ml-2" src="{{ Auth::user()->picture ?? asset('assets-dashboard/images/placeholder.png') }}" alt="Header Avatar">
                         <span class="fw-medium hidden xl:block">{{Auth::user()->name}}</span>
                         <i class="mdi mdi-chevron-down align-bottom hidden xl:block"></i>
                     </button>
