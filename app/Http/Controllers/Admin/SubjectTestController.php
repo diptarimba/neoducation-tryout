@@ -55,8 +55,10 @@ class SubjectTestController extends Controller
         $editBtn = route('admin.test.edit', $data->id);
         $deleteBtn = route('admin.test.destroy', $data->id);
         $questionBtn = route('admin.test.question.index', $data->id);
+        $userBtn = route('admin.test.user.index', $data->id);
         $buttonAction = '<a href="' . $editBtn . '" class="' . self::CLASS_BUTTON_PRIMARY . '">Edit</a>';
         $buttonAction .= '<a href="' . $questionBtn . '" class="' . self::CLASS_BUTTON_INFO . '">Question List</a>';
+        $buttonAction .= '<a href="' . $userBtn . '" class="' . self::CLASS_BUTTON_WARNING . '">User List</a>';
         $buttonAction .= '<button type="button" onclick="delete_data(\'form' . $ident . '\')"class="' . self::CLASS_BUTTON_DANGER . '">Delete</button>' . '<form id="form' . $ident . '" action="' . $deleteBtn . '" method="post"> <input type="hidden" name="_token" value="' . csrf_token() . '" /> <input type="hidden" name="_method" value="DELETE"> </form>';
         return $buttonAction;
     }
