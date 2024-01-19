@@ -7,6 +7,7 @@
 
 @section('content')
     <x-util.card title="Mata Ujian" add url="{{route('admin.test.create')}}">
+        <div class="overflow-x-auto">
         <table id="datatable" class="table w-full pt-4 text-gray-700 dark:text-zinc-100 datatables-target-exec">
             <thead>
                 <tr>
@@ -23,6 +24,7 @@
             <tbody>
             </tbody>
         </table>
+        </div>
     </x-util.card>
 @endsection
 
