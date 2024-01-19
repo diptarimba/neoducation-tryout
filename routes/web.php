@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\HomeController as AdminHomeController;
 use App\Http\Controllers\Admin\QuestionController;
 use App\Http\Controllers\Admin\SubjectController;
 use App\Http\Controllers\Admin\SubjectTestController;
+use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\UserTestController;
 use App\Http\Controllers\User\HomeController as UserHomeController;
 use App\Http\Controllers\LoginRegisterController;
@@ -42,6 +43,8 @@ Route::middleware(['no_auth'])->group(function () {
         ->parameter('test', 'subjectTest')
         ->parameter('q', 'question')
         ->parameter('a', 'answer');
+
+        Route::resource('user', UserController::class);
 
         Route::resource('subject/test.u', UserTestController::class, [
             'names' => 'test.user'

@@ -14,6 +14,8 @@
                         url="{{ route('admin.subject.index') }}" />
                     <x-sidebar.first-single title="Mata Ujian" key="subjecttest" icon="clipboard"
                         url="{{ route('admin.test.index') }}" />
+                    <x-sidebar.first-single title="Siswa" key="student" icon="users"
+                        url="{{ route('admin.user.index') }}" />
                 @elseif (auth()->user()->hasRole('merchant'))
                     <x-sidebar.divider title="Menu" />
                     <x-sidebar.first-single title="Dashboard" key="dashboard" icon="home"
