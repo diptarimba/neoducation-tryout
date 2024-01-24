@@ -16,7 +16,7 @@ class UserTestController extends Controller
     {
         if ($request->ajax())
         {
-            $user = UserTest::with('user')->where('test_id', $subjectTest->id)->select();
+            $user = UserTest::with('user')->where('test_id', $subjectTest->id)->whereNotNull('score')->whereNotNull('end_at')->select();
             return datatables()->of($user)
             ->addIndexColumn()
             ->make(true);

@@ -2287,6 +2287,24 @@ h6{
 .grid-cols-4{
   grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
 }
+.grid-cols-5{
+  grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+}
+.grid-cols-6{
+  grid-template-columns: repeat(6, minmax(0, 1fr)) !important;
+}
+.grid-cols-7{
+  grid-template-columns: repeat(7, minmax(0, 1fr)) !important;
+}
+.grid-cols-8{
+  grid-template-columns: repeat(8, minmax(0, 1fr)) !important;
+}
+.grid-cols-9{
+  grid-template-columns: repeat(9, minmax(0, 1fr)) !important;
+}
+.grid-cols-10{
+  grid-template-columns: repeat(10, minmax(0, 1fr)) !important;
+}
 .grid-cols-\[repeat\(2\2c 56px\)\]{
   grid-template-columns: repeat(2,56px) !important;
 }
@@ -6268,7 +6286,7 @@ span.flatpickr-weekday{
 }
 .flatpickr-months .flatpickr-next-month:hover svg, .flatpickr-months .flatpickr-prev-month:hover svg {
     fill: rgba(255, 255, 255, .9) !important
-    
+
 }
 .form-control {
     color: #495057;
@@ -6287,7 +6305,7 @@ span.flatpickr-weekday{
     -webkit-box-shadow: 1px 0 0 #3f4341, -1px 0 0 #3f4341, 0 1px 0 #3f4341, 0 -1px 0 #3f4341, 0 3px 13px rgb(0 0 0 / 8%) !important;
             box-shadow: 1px 0 0 #3f4341, -1px 0 0 #3f4341, 0 1px 0 #3f4341, 0 -1px 0 #3f4341, 0 3px 13px rgb(0 0 0 / 8%) !important;
 }
-[dir="rtl"] .flatpickr-calendar { 
+[dir="rtl"] .flatpickr-calendar {
     direction: rtl;
 }
 input[switch] {
@@ -10514,6 +10532,24 @@ select{
   }
   .xl\:grid-cols-4{
     grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  }
+  .xl\:grid-cols-5{
+    grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+  }
+  .xl\:grid-cols-6{
+    grid-template-columns: repeat(6, minmax(0, 1fr)) !important;
+  }
+  .xl\:grid-cols-7{
+    grid-template-columns: repeat(7, minmax(0, 1fr)) !important;
+  }
+  .xl\:grid-cols-8{
+    grid-template-columns: repeat(8, minmax(0, 1fr)) !important;
+  }
+  .xl\:grid-cols-9{
+    grid-template-columns: repeat(9, minmax(0, 1fr)) !important;
+  }
+  .xl\:grid-cols-10{
+    grid-template-columns: repeat(10, minmax(0, 1fr)) !important;
   }
   .xl\:border-l-0{
     border-left-width: 0px !important;

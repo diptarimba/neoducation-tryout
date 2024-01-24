@@ -195,7 +195,7 @@
                     &copy;
                     <script>
                         document.write(new Date().getFullYear());
-                    </script> Minia
+                    </script> {{config('app.name')}}
                 </div>
                 <div class="hidden md:inline-block text-end">Design & Develop by <a href=""
                         class="text-violet-500 underline">Themesbrand</a></div>
@@ -244,6 +244,8 @@
     <script src="{{ asset('assets-dashboard/js/pages/login.init.js') }}"></script>
 
     <script src="{{ asset('assets-dashboard/js/app.js') }}"></script>
+
+    <script src="{{asset('assets-dashboard/js/pages/moment.js')}}"></script>
 
     <!-- Sweet Alerts js -->
     <script src="{{ asset('assets-dashboard/libs/sweetalert2/sweetalert2.min.js') }}"></script>

@@ -29,7 +29,7 @@ class UserTest extends Model
 
     public function user_answer()
     {
-        return $this->hasMany(UserAnswer::class, 'user_test', 'id');
+        return $this->hasMany(UserAnswer::class, 'user_test_id', 'id');
     }
 
 }

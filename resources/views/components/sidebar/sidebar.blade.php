@@ -20,6 +20,9 @@
                     <x-sidebar.divider title="Menu" />
                     <x-sidebar.first-single title="Dashboard" key="dashboard" icon="home"
                         url="{{ route('user.dashboard') }}" />
+                    <x-sidebar.first-single title="Enroll Test" key="enrolltest" icon="key"
+                        url="{{ route('user.test.enroll.index') }}" />
+                    <x-sidebar.first-single title="My Test" key="mytest" icon="menu" url="{{route('user.test.index')}}"/>
                 @endif
             </ul>
         </div>

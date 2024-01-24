@@ -10,6 +10,8 @@ use App\Http\Controllers\Admin\UserTestController;
 use App\Http\Controllers\User\HomeController as UserHomeController;
 use App\Http\Controllers\LoginRegisterController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\User\SubjectTestController as UserSubjectTestController;
+use App\Http\Controllers\User\UserTestController as UserUserTestController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -59,6 +61,22 @@ Route::middleware(['no_auth'])->group(function () {
 
     Route::prefix('user')->as('user.')->middleware(['role:user', 'auth'])->group(function () {
         Route::get('dashboard', [UserHomeController::class, 'index'])->name('dashboard');
+
+        // unroll test with code
+        Route::get('subject/test/enroll', [UserSubjectTestController::class, 'index_enroll'])->name('test.enroll.index');
+        Route::post('subject/test/enroll', [UserSubjectTestController::class, 'store_enroll'])->name('test.enroll.store');
+
+        // start landing page & start test
+        Route::get('subject/test/{userTest}/start', [UserUserTestController::class, 'ready_test'])->name('test.start.index');
+        Route::post('subject/test/{userTest}/start', [UserUserTestController::class, 'start_test'])->name('test.start.store');
+
+        // the test
+        Route::get('subject/test/{userTest}/show', [UserUserTestController::class, 'show_test'])->name('test.start.show');
+        Route::post('subject/test/{userTest}/store', [UserUserTestController::class, 'store_test'])->name('test.end.store');
+
+        // finish test
+        Route::get('subject/test/{subjectTest}/finish', [UserSubjectTestController::class, 'finish_test'])->name('test.classement');
+        Route::resource('subject/test', UserSubjectTestController::class)->parameter('test', 'subjectTest');
     });
 
     Route::get('logout', [LoginRegisterController::class, 'logout'])->name('logout');

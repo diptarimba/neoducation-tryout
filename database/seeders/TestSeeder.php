@@ -49,12 +49,12 @@ class TestSeeder extends Seeder
             $subject = \App\Models\Subject::create([
                 'name' => $s['name']
             ]);
-            $time = Carbon::now()->addHours(5);
+            $time = Carbon::now();
             $user = User::role('admin')->first();
             $subjectTest = $subject->subject_test()->create([
                 'name' => $s['test'],
                 'start_at' => $time->timestamp,
-                'end_at' => $time->addMinutes(40)->timestamp,
+                'end_at' => $time->addHours(5)->timestamp,
                 'created_by_id' => $user->id,
                 'subject_id' => $subject->id,
                 'enrolled_code' => \Illuminate\Support\Str::random(10),

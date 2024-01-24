@@ -22,3 +22,41 @@
         </x-form.base>
     </x-util.card>
 @endsection
+
+@section('custom-footer')
+<script>
+    console.log(moment().format('YYYY-MM-DD, HH:mm'))
+    function validateTestTimes() {
+        const startAtInput = document.querySelector('input[name="start_at"]');
+        const endAtInput = document.querySelector('input[name="end_at"]');
+        startAtInput.setAttribute("min", moment().format('YYYY-MM-DD HH:mm'))
+        endAtInput.setAttribute("min", moment().format('YYYY-MM-DD HH:mm'))
+        const now = new Date();
+        const minimumInterval = 5 * 60 * 1000; // 5 minutes in milliseconds
+
+        startAtInput.addEventListener('change', function() {
+            const startTime = new Date(this.value);
+            if (startTime < now) {
+                alert('Start time cannot be less than the current time.');
+                this.value = moment().format('YYYY-MM-DD HH:mm');
+            }
+        });
+
+        endAtInput.addEventListener('change', function() {
+            const endTime = new Date(this.value);
+            const startTime = new Date(startAtInput.value);
+            console.log('waktu pertama :', startTime)
+            if (endTime <= startTime) {
+                alert('End time must be greater than start time.');
+                this.value = moment(startTime).add(5, 'minutes').format('YYYY-MM-DD HH:mm');
+            } else if (endTime - startTime < minimumInterval) {
+                alert('End time must be at least 5 minutes greater than start time.');
+                console.log("ini", new Date(startTime.getTime() + minimumInterval).toISOString().slice(0, 16))
+                this.value = moment(startTime).add(5, 'minutes').format('YYYY-MM-DD HH:mm');
+            }
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', validateTestTimes);
+</script>
+@endsection
