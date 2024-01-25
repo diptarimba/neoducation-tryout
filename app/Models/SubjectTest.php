@@ -18,6 +18,20 @@ class SubjectTest extends Model
         'enrolled_code'
     ];
 
+    protected static function boot()
+    {
+        parent::boot();
+
+        // static::creating(function ($model) {
+        //     $model->{$model->getKeyName()} = Uuid::uuid4()->toString(); // Atur nilai UUID saat pembuatan
+        // });
+
+        static::deleting(function($parent) {
+            $parent->question()->delete();
+            $parent->user_test()->delete();
+        });
+    }
+
     public function question()
     {
         return $this->hasMany(Question::class, 'test_id', 'id');

@@ -29,8 +29,8 @@
     function validateTestTimes() {
         const startAtInput = document.querySelector('input[name="start_at"]');
         const endAtInput = document.querySelector('input[name="end_at"]');
-        startAtInput.setAttribute("min", moment().format('YYYY-MM-DD HH:mm'))
-        endAtInput.setAttribute("min", moment().format('YYYY-MM-DD HH:mm'))
+        // startAtInput.setAttribute("min", moment().format('YYYY-MM-DD HH:mm'))
+        // endAtInput.setAttribute("min", moment().format('YYYY-MM-DD HH:mm'))
         const now = new Date();
         const minimumInterval = 5 * 60 * 1000; // 5 minutes in milliseconds
 
