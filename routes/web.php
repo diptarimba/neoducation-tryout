@@ -47,6 +47,8 @@ Route::middleware(['no_auth'])->group(function () {
         ->parameter('q', 'question')
         ->parameter('a', 'answer');
 
+        Route::put('user/{user}/password', [UserController::class, 'reset_password'])->name('user.password');
+
         Route::resource('user', UserController::class);
 
         Route::resource('subject/test.u', UserTestController::class, [

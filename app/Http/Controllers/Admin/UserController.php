@@ -68,8 +68,22 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        $data = $this->createMetaPageData($user, 'User', 'user');
+        // $data = $this->createMetaPageData($user, 'User', 'user');
+        $data = [
+            'title' => 'Update User',
+            'url' => route('admin.user.password', $user->id),
+            'home' => route('admin.user.index'),
+        ];
         return view('page.admin-dashboard.user.create-edit', compact('data', 'user'));
+    }
+
+    public function reset_password(User $user)
+    {
+        $user->update([
+            'password' => bcrypt(config('password.default')),
+        ]);
+
+        return redirect()->route('admin.user.edit', $user->id)->with('success', 'User Password Reset Successfully');
     }
 
     /**

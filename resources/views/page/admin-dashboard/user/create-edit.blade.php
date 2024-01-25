@@ -16,6 +16,7 @@
                 value="{{ $user->dob ?? '' }}" />
             <x-form.input disable name="phone" label="No. Hp" placeholder="input user name"
                 value="{{ $user->phone ?? '' }}" />
+            <x-button.submit label="Reset Password" />
             <x-button.cancel url="{{ $data['home'] }}" />
         </x-form.base>
     </x-util.card>
