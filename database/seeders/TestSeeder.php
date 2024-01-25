@@ -33,10 +33,31 @@ class TestSeeder extends Seeder
                             ],
                             [
                                 "answer" => "5",
-                                "is_true" => false
+                                "is_true" => true
                             ],
                             [
                                 "answer" => "6",
+                                "is_true" => false
+                            ],
+                        ],
+                    ],
+                    [
+                        "question" => "Naga berkepala 3",
+                        "answer" => [
+                            [
+                                "answer" => "Blue Eyes White Dragon",
+                                "is_true" => true
+                            ],
+                            [
+                                "answer" => "Obelisk",
+                                "is_true" => false
+                            ],
+                            [
+                                "answer" => "White Night Dragon",
+                                "is_true" => false
+                            ],
+                            [
+                                "answer" => "Berserk Dargon",
                                 "is_true" => false
                             ],
                         ],
@@ -53,11 +74,11 @@ class TestSeeder extends Seeder
             $user = User::role('admin')->first();
             $subjectTest = $subject->subject_test()->create([
                 'name' => $s['test'],
-                'start_at' => $time->timestamp,
-                'end_at' => $time->addHours(5)->timestamp,
+                'start_at' => $time->format('Y-m-d H:i:s'),
+                'end_at' => $time->addHours(5)->format('Y-m-d H:i:s'),
                 'created_by_id' => $user->id,
                 'subject_id' => $subject->id,
-                'enrolled_code' => \Illuminate\Support\Str::random(10),
+                'enrolled_code' => strtoupper(\Illuminate\Support\Str::random(10)),
             ]);
 
             foreach($s['the_test'] as $eachQuestion){

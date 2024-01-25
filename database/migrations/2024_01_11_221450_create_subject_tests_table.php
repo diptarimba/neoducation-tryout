@@ -20,6 +20,7 @@ return new class extends Migration
             $table->unsignedBigInteger('subject_id');
             $table->unsignedBigInteger('created_by_id');
             $table->timestamps();
+            $table->timestamp('deleted_at')->nullable();
         });
     }
 

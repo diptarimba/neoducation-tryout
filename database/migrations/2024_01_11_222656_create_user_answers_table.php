@@ -17,6 +17,7 @@ return new class extends Migration
             $table->unsignedBigInteger('answer_id')->nullable();
             $table->unsignedBigInteger('user_test_id');
             $table->timestamps();
+            $table->timestamp('deleted_at')->nullable();
         });
     }
 

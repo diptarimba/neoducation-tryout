@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('answer');
             $table->boolean('is_true');
             $table->timestamps();
+            $table->timestamp('deleted_at')->nullable();
         });
     }
 

@@ -20,12 +20,15 @@ class SubjectTestController extends Controller
             return datatables()->of($subjectTest)
                 ->addIndexColumn()
                 ->addColumn('start_at', function ($query) {
-                    return $query->start_at ? date('d F Y H:i', $query->start_at) : '';
+                    return $query->start_at ?? '';
                 })
                 ->addColumn('duration', function ($query) {
                     $start = \Carbon\Carbon::parse($query->start_at);
                     $end = \Carbon\Carbon::parse($query->end_at);
                     return $start->diff($end)->format('%H:%I:%S');
+                })
+                ->addColumn('enrolled_code', function($query){
+                    return strtoupper($query->enrolled_code);
                 })
                 ->addColumn('question_count', function ($query) {
                     return $query->question()->count();
@@ -128,12 +131,7 @@ class SubjectTestController extends Controller
             'enrolled_code' => 'required'
         ]);
 
-        $data = array_merge($request->all(), [
-            'start_at' => strtotime($request->start_at),
-            'end_at' => strtotime($request->end_at),
-        ]);
-
-        $subjectTest->update($data);
+        $subjectTest->update($request->all());
 
         return redirect()->route('admin.test.index')->with('success', 'Test Updated Successfully');
     }

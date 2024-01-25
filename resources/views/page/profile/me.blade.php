@@ -10,8 +10,8 @@
             <x-form.input name="name" label="Name Pengguna" placeholder="input your name" value="{{ $user->name ?? '' }}" />
             <x-form.input name="password" type="password" label="Password" placeholder="input your password"
                 value="{{ '' }}" />
-            <x-form.input oninput="this.value = this.value.replace(/\s/g, '');" name="email" type="email" label="Email"
-                placeholder="input email" value="{{ $user->email ?? '' }}" />
+            {{-- <x-form.input oninput="this.value = this.value.replace(/\s/g, '');" name="email" type="email" label="Email"
+                placeholder="input email" value="{{ $user->email ?? '' }}" /> --}}
             <x-form.input oninput="this.value = this.value.replace(/^[._]+|[._]+$|[^A-Za-z0-9_.]/g, '')" name="username"
                 label="Username" placeholder="input your username" value="{{ $user->username ?? '' }}" />
                 <x-form.input accept="image/*" texting="Image" name="file" type="file" label="Photo Profile" placeholder="" value="" />

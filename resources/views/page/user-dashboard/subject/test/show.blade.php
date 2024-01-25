@@ -86,11 +86,13 @@
                 text: "Kamu tidak akan bisa kembali!",
                 icon: 'warning',
                 showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
                 confirmButtonText: 'Yes, Submit!',
-                confirmButtonClass: 'btn bg-green-500 border-green-500 text-white mt-2',
+                // confirmButtonClass: 'btn bg-green-500 border-green-500 text-white mt-2',
                 cancelButtonText: 'No, Cancel!',
-                cancelButtonClass: 'btn bg-red-500 border-red-500 text-white ml-2 mt-2',
-                buttonsStyling: false
+                // cancelButtonClass: 'btn bg-red-500 border-red-500 text-white ml-2 mt-2',
+                buttonsStyling: true
             }).then(function(result) {
                 if (result.value) {
                     Swal.fire({
@@ -159,6 +161,7 @@
                 $('.soal').text(question[state].question);
                 let questionId = question[state].id;
                 let keysAnswer = Object.keys(question[state].answer);
+                const radioOptions = [];
                 for (const key of keysAnswer) {
                     radioOptions.push({
                         id: key,
@@ -168,7 +171,7 @@
                 radioOptions.sort(() => Math.random() - 0.5);
 
                 const radioContainer = document.querySelector('.radio-container');
-
+                radioContainer.innerHTML = ''
                 radioOptions.forEach((option, index) => {
 
                     const alphabet = 'abcdefghijklmnopqrstuvwxyz' [index % 26].toUpperCase();
@@ -203,7 +206,7 @@
 
             let current_state_q = null;
 
-            let endTime = moment.unix(test_data.test_end_at);
+            let endTime = moment(test_data.test_end_at);
             let currentTime = moment();
             let diffTime = endTime.diff(currentTime);
             let interval = 1000;
@@ -218,7 +221,7 @@
             }, interval);
 
             let question = test_data.test_question;
-            const radioOptions = [];
+
 
             current_state_q = 0;
 

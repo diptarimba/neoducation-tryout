@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class SubjectTest extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     protected $fillable = [
         'name',
@@ -17,6 +18,8 @@ class SubjectTest extends Model
         'subject_id',
         'enrolled_code'
     ];
+
+    protected $dates = ['deleted_at'];
 
     protected static function boot()
     {

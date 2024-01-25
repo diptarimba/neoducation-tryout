@@ -19,6 +19,7 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('test_id');
             $table->timestamps();
+            $table->timestamp('deleted_at')->nullable();
         });
     }
 
