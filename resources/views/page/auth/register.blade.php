@@ -83,7 +83,7 @@
                                         <input type="text"
                                             class="w-full border-gray-100 rounded placeholder:text-sm py-2 dark:bg-zinc-700/50 dark:border-zinc-600 dark:text-gray-100 dark:placeholder:text-zinc-100/60"
                                             id="username" name="username" required
-                                            oninput="this.value = this.value.trim()" placeholder="Enter Username baru ">
+                                            oninput="this.value = this.value.replace(/^[._]+|[._]+$|[^a-z0-9_.]/g, '')" placeholder="Enter Username baru ">
                                     </div>
                                     <div class="mb-3">
                                         <div>
