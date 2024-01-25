@@ -16,6 +16,8 @@
                         url="{{ route('admin.test.index') }}" />
                     <x-sidebar.first-single title="Siswa" key="student" icon="users"
                         url="{{ route('admin.user.index') }}" />
+                        <x-sidebar.first-single title="Admin" key="admin" icon="command"
+                        url="{{ route('admin.admin.index') }}" />
                 @elseif (auth()->user()->hasRole('user'))
                     <x-sidebar.divider title="Menu" />
                     <x-sidebar.first-single title="Dashboard" key="dashboard" icon="home"

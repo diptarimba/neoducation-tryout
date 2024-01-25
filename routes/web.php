@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\AnswerController;
 use App\Http\Controllers\Admin\HomeController as AdminHomeController;
 use App\Http\Controllers\Admin\QuestionController;
@@ -57,6 +58,7 @@ Route::middleware(['no_auth'])->group(function () {
         ])->parameter('test', 'subjectTest')->parameter('q', 'question');
         Route::resource('subject/test', SubjectTestController::class)->parameter('test', 'subjectTest');
         Route::resource('subject', SubjectController::class);
+        Route::resource('admin', AdminController::class)->parameter('admin', 'user');
     });
 
     Route::prefix('user')->as('user.')->middleware(['role:user', 'auth'])->group(function () {

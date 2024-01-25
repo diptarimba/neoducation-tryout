@@ -10,10 +10,8 @@
             <x-form.input name="name" label="Name" placeholder="input your name" value="{{ $user->name ?? '' }}" />
             <x-form.input name="password" type="password" label="Password" placeholder="input your name"
                 value="{{ '' }}" />
-            <x-form.input oninput="this.value = this.value.replace(/\s/g, '');" name="email" type="email" label="Email" placeholder="input email"
-                value="{{ $user->email ?? '' }}" />
-            {{-- <x-form.select name="role" title="Pilih Role" data="{!! $roles !!}"
-                value="{{ $user->role ?? '' }}" /> --}}
+            <x-form.input oninput="this.value = this.value.replace(/^[._]+|[._]+$|[^0-9_.]/g, '');" name="phone" label="Phone" placeholder="input phone"
+                value="{{ $user->phone ?? '' }}" />
             <x-form.input oninput="this.value = this.value.replace(/^[._]+|[._]+$|[^A-Za-z0-9_.]/g, '')" name="username" label="Username" placeholder="input your nim"
                 value="{{ $user->username ?? '' }}" />
             <x-button.submit />
