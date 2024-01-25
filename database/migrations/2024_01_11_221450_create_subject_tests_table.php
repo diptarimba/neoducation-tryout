@@ -12,13 +12,13 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('subject_tests', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id')->primary();
             $table->string('name');
             $table->string('enrolled_code');
             $table->timestamp('start_at');
             $table->timestamp('end_at');
-            $table->unsignedBigInteger('subject_id');
-            $table->unsignedBigInteger('created_by_id');
+            $table->uuid('subject_id');
+            $table->uuid('created_by_id');
             $table->timestamps();
             $table->timestamp('deleted_at')->nullable();
         });

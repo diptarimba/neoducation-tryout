@@ -2,6 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Models\Permission as ModelsPermission;
+use App\Models\Role as ModelsRole;
 use App\Models\RoleHome;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -31,12 +33,12 @@ class RoleAndPermissionSeeder extends Seeder
         ];
 
         foreach ($roles as $key => $value) {
-            $role = Role::firstOrCreate([
+            $role = ModelsRole::firstOrCreate([
                 'name' => $key
             ]);
 
             foreach ($value['permission'] as $each) {
-                $permission = Permission::firstOrCreate([
+                $permission = ModelsPermission::firstOrCreate([
                     'name' => $each
                 ]);
                 $role->givePermissionTo($permission);

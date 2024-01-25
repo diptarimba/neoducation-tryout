@@ -12,12 +12,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('user_tests', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id')->primary();
             $table->bigInteger('score')->nullable();
             $table->timestamp('start_at')->nullable();
             $table->timestamp('end_at')->nullable();
-            $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('test_id');
+            $table->uuid('user_id');
+            $table->uuid('test_id');
             $table->timestamps();
             $table->timestamp('deleted_at')->nullable();
         });

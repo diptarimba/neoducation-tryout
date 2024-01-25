@@ -5,10 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Ramsey\Uuid\Uuid;
 
 class SubjectTest extends Model
 {
     use HasFactory, SoftDeletes;
+
+    public $incrementing = false;
+    protected $primaryKey = 'id';
+    protected $keyType = 'string';
 
     protected $fillable = [
         'name',
@@ -25,9 +30,9 @@ class SubjectTest extends Model
     {
         parent::boot();
 
-        // static::creating(function ($model) {
-        //     $model->{$model->getKeyName()} = Uuid::uuid4()->toString(); // Atur nilai UUID saat pembuatan
-        // });
+        static::creating(function ($model) {
+            $model->{$model->getKeyName()} = Uuid::uuid4()->toString(); // Atur nilai UUID saat pembuatan
+        });
 
         static::deleting(function($parent) {
             $parent->question()->delete();

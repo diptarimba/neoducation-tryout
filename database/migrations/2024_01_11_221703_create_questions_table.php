@@ -12,10 +12,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('questions', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id')->primary();
             $table->string('question');
             $table->string('image')->nullable();
-            $table->unsignedBigInteger('test_id');
+            $table->uuid('test_id');
             $table->timestamps();
             $table->timestamp('deleted_at')->nullable();
         });

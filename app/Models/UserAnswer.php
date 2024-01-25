@@ -2,13 +2,18 @@
 
 namespace App\Models;
 
+use App\Models\Traits\UUIDC;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class UserAnswer extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory, SoftDeletes, UUIDC;
+
+    public $incrementing = false;
+    protected $primaryKey = 'id';
+    protected $keyType = 'string';
 
     protected $fillable = [
         'question_id',
