@@ -50,6 +50,11 @@ class AnswerController extends Controller
      */
     public function create(SubjectTest $subjectTest, Question $question)
     {
+        $question->load('answer');
+        $answerCount = $question->answer()->count();
+        if ($answerCount >= 4) {
+            return redirect()->route('admin.test.answer.index', [$subjectTest->id, $question->id])->with('error', 'Sudah tersedia 4 jawaban');
+        }
         $data = [
             'title' => "Create Question Data",
             'url' => route('admin.test.answer.store', [$subjectTest->id, $question->id]),
@@ -176,5 +181,15 @@ class AnswerController extends Controller
         $checkTrue = $checkTrue->where('is_true', true);
         return $checkTrue->first();
 
+    }
+
+    public function destroy_all(SubjectTest $subjectTest, Question $question)
+    {
+        try {
+            $question->answer()->delete();
+            return redirect()->route('admin.test.answer.index', [$subjectTest->id, $question->id])->with('success', 'All Answer Deleted Successfully');
+        } catch (\Throwable $th) {
+            return redirect()->route('admin.test.answer.index', [$subjectTest->id, $question->id])->with('error', $th->getMessage());
+        }
     }
 }

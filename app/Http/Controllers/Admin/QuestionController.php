@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Imports\QuestionImport;
 use App\Models\Question;
 use App\Models\SubjectTest;
 use Illuminate\Http\Request;
 use Illuminate\SUpport\Str;
+use Maatwebsite\Excel\Facades\Excel;
 
 class QuestionController extends Controller
 {
@@ -132,6 +134,41 @@ class QuestionController extends Controller
             return redirect()->route('admin.test.question.index', $subjectTest->id)->with('success', 'Question Deleted Successfully');
         } catch (\Exception $e) {
             return redirect()->route('admin.test.question.index', $subjectTest->id)->with('error', $e->getMessage());
+        }
+    }
+
+    public function upload_index(SubjectTest $subjectTest)
+    {
+        $data = [
+            'title' => "Upload Pertanyaan",
+            'url' => route('admin.test.question.upload.store', $subjectTest->id),
+            'home' => route('admin.test.question.index', $subjectTest->id),
+        ];
+        return view('page.admin-dashboard.subject.test.question.upload', compact('data'));
+    }
+
+    public function upload_store(SubjectTest $subjectTest, Request $request)
+    {
+        try {
+            $request->validate([
+                'file' => 'mimes:xlsx'
+            ]);
+
+            Excel::import(new QuestionImport($subjectTest), $request->file('file'));
+
+            return redirect()->route('admin.test.question.index', $subjectTest->id)->with('success', 'Question Uploaded Successfully');
+        } catch (\Throwable $th) {
+            return redirect()->route('admin.test.question.index', $subjectTest->id)->with('error', $th->getMessage());
+        }
+    }
+
+    public function destroy_all(SubjectTest $subjectTest)
+    {
+        try {
+            $subjectTest->question()->delete();
+            return redirect()->route('admin.test.question.index', $subjectTest->id)->with('success', 'Question Deleted Successfully');
+        } catch (\Throwable $th) {
+            return redirect()->route('admin.test.question.index', $subjectTest->id)->with('error', $th->getMessage());
         }
     }
 }

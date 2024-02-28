@@ -6,7 +6,10 @@
 @section('sub-page-title', 'Index')
 
 @section('content')
-    <x-util.card title="Jawaban" add url="{{route('admin.test.answer.create', [$subjectTest->id, $question->id])}}">
+    <x-util.card title="Pertanyaan: {{$question->question}}" add url="{{route('admin.test.answer.create', [$subjectTest->id, $question->id])}}">
+        <x-slot name="customBtn">
+            <button onclick="delete_data('delete_all')" class="btn m-1 text-white bg-red-500 border-red-500 hover:bg-red-600 hover:border-red-600 focus:bg-red-600 focus:border-red-600 focus:ring focus:ring-red-500/30 active:bg-red-600 active:border-red-600">Delete All</button>
+        </x-slot name="customBtn">
         <table id="datatable" class="table w-full pt-4 text-gray-700 dark:text-zinc-100 datatables-target-exec">
             <thead>
                 <tr>
@@ -20,6 +23,9 @@
             <tbody>
             </tbody>
         </table>
+        <form action="{{route('admin.test.answer.destroy.all', [$subjectTest->id, $question->id])}}" id="delete_all" method="post">
+            @csrf
+        </form>
     </x-util.card>
 @endsection
 

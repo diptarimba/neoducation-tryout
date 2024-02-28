@@ -25,7 +25,7 @@ class SubjectTestController extends Controller
                 ->addColumn('duration', function ($query) {
                     $start = \Carbon\Carbon::parse($query->start_at);
                     $end = \Carbon\Carbon::parse($query->end_at);
-                    return $start->diff($end)->format('%H:%I:%S');
+                    return $start->diff($end)->format('%D:%H:%I:%S');
                 })
                 ->addColumn('enrolled_code', function($query){
                     return strtoupper($query->enrolled_code);
@@ -90,8 +90,6 @@ class SubjectTestController extends Controller
         ]);
 
         $data = array_merge($request->all(), [
-            'start_at' => strtotime($request->start_at),
-            'end_at' => strtotime($request->end_at),
             'created_by_id' => auth()->user()->id
         ]);
 

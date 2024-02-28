@@ -40,6 +40,8 @@ Route::middleware(['no_auth'])->group(function () {
     Route::post('{user}/me', [ProfileController::class, 'store'])->name('profile.store');
     Route::prefix('admin')->as('admin.')->middleware(['role:admin', 'auth'])->group(function () {
         Route::get('dashboard', [AdminHomeController::class, 'index'])->name('dashboard');
+        Route::post('subject/test/{subjectTest}/q/delete/all', [QuestionController::class, 'destroy_all'])->name('test.question.destroy.all');
+        Route::post('subject/test/{subjectTest}/q/{question}/a/delete/all', [AnswerController::class, 'destroy_all'])->name('test.answer.destroy.all');
         Route::resource('subject/test.q.a', AnswerController::class, [
             'names' => 'test.answer'
         ])
@@ -55,6 +57,8 @@ Route::middleware(['no_auth'])->group(function () {
             'names' => 'test.user'
         ])
         ->parameter('test', 'subjectTest');
+        Route::get('subject/test/{subjectTest}/q/upload', [QuestionController::class, 'upload_index'])->name('test.question.upload.index');
+        Route::post('subject/test/{subjectTest}/q/upload', [QuestionController::class, 'upload_store'])->name('test.question.upload.store');
         Route::resource('subject/test.q', QuestionController::class, [
             'names' => 'test.question'
         ])->parameter('test', 'subjectTest')->parameter('q', 'question');
