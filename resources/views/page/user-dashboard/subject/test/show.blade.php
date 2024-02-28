@@ -119,6 +119,7 @@
         }
         // memilih jawaban dan di save di local storage
         function setAnswer(questionId, answerId) {
+            console.log(questionId, answerId)
             $.ajax({
                 type: 'POST',
                 url: '{{ route('user.test.end.store', $userTest->id) }}', // Replace with your server endpoint
@@ -194,7 +195,7 @@
                         'ltr:ml-2 rtl:mr-2 text-sm font-medium text-gray-900 dark:text-gray-300';
                     label.textContent = `${alphabet}. ${option.label}`;
                     label.setAttribute('onClick',
-                        `setAnswer(${questionId},${option.id})`
+                        `setAnswer('${questionId}','${option.id}')`
                     ); // Replace 'someFunction()' with the actual function to call on click
 
                     wrapperDiv.appendChild(input);

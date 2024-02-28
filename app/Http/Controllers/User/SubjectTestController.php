@@ -76,10 +76,10 @@ class SubjectTestController extends Controller
 
         if ($now->between($testStart, $testEnd)){
             if (is_null($data->score) && is_null($data->start_at) && is_null($data->end_at)){
-                $startBtn = route('user.test.start.index', $data->subject_test->id);
+                $startBtn = route('user.test.start.index', $data->id);
                 $buttonAction = '<a href="' . $startBtn . '" class="' . self::CLASS_BUTTON_PRIMARY . '">Start</a>';
             } else if (!is_null($data->start_at) && is_null($data->end_at) && is_null($data->score)) {
-                $backToTestBtn = route('user.test.start.index', $data->subject_test->id);
+                $backToTestBtn = route('user.test.start.index', $data->id);
                 $buttonAction = '<a href="' . $backToTestBtn . '" class="' . self::CLASS_BUTTON_PRIMARY . '">Continue</a>';
             }
         }
