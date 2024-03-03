@@ -1,2 +1,2 @@
-@props(['url' => '#', 'label' => 'Cancel', 'color' => 'red'])
-<a href="{{$url}}" class="btn text-white bg-{{$color}}-500 border-{{$color}}-500 hover:bg-{{$color}}-600 hover:border-{{$color}}-600 focus:bg-{{$color}}-600 focus:border-{{$color}}-600 focus:ring focus:ring-{{$color}}-500/30 active:bg-{{$color}}-600 active:border-{{$color}}-600">{{$label}}</a>
+@props(['url' => '#', 'label' => 'Cancel', 'type' => 'cancel', 'colour' => 'red', 'download' => false])
+<a href="{{$url}}" {{$download ? 'download' : ''}} class="btn text-white bg-{{$colour}}-500 border-{{$colour}}-500 hover:bg-{{$colour}}-600 hover:border-{{$colour}}-600 focus:bg-{{$colour}}-600 focus:border-{{$colour}}-600 focus:ring focus:ring-{{$colour}}-500/30 active:bg-{{$colour}}-600 active:border-{{$colour}}-600 {{$type == 'back' ? 'mb-2' : ''}}">{{$label}}</a>

@@ -6,6 +6,7 @@
 @section('sub-page-title', 'Index')
 
 @section('content')
+    <x-button.cancel colour="green" type="back" url="{{route('admin.test.question.index', $subjectTest->id)}}" label="Back" />
     <x-util.card title="Pertanyaan: {{ $question->question }}">
         @if ($beforeTest)
             <x-slot name="customBtn">

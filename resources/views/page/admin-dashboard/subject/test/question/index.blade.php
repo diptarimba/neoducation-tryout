@@ -6,7 +6,8 @@
 @section('sub-page-title', 'Index')
 
 @section('content')
-    <x-util.card title="Pertanyaan">
+    <x-button.cancel colour="green" type="back" url="{{route('admin.test.index')}}" label="Back" />
+    <x-util.card title="{{$subjectTest->name}}">
         @if ($duringTest)
             <x-slot name="customBtn">
                 <button onclick="delete_data('delete_all')"
