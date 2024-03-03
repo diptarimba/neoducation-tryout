@@ -4,7 +4,6 @@
 @section('page-title', $userTest->subject_test->name)
 @section('sub-page-title', 'Test')
 
-
 @section('content')
     <div class="grid grid-cols-12 gap-4"  id="app">
         <div class="col-span-12 lg:col-span-9">
@@ -14,6 +13,7 @@
                     <div v-for="(question, index) in test_data.test_question" :key="index">
                         <div v-show="isAnswer[index]">
                         <h5 class="mb-3">@{{ index + 1 }}. @{{ question.question }}</h5>
+                        <img v-show="question.image" :src="question.image" class="mb-5 img-content object-contain mx-auto rounded" style="max-height: 32rem">
                         <form>
                             {{-- question answer --}}
                             <div v-for="(answer, index) in question.answer">
