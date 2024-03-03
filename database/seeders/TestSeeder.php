@@ -22,6 +22,7 @@ class TestSeeder extends Seeder
                 "the_test" => [
                     [
                         "question" => "Berapa Jarak Tempuh Saya Ke kantor?",
+                        "image" => "https://assetsio.reedpopcdn.com/Dr.-Stone-banner.jpg?width=1200&height=1200&fit=bounds&quality=70&format=jpg&auto=webp",
                         "answer" => [
                             [
                                 "answer" => "3",
@@ -43,6 +44,7 @@ class TestSeeder extends Seeder
                     ],
                     [
                         "question" => "Naga berkepala 3",
+                        "image" => "https://awsimages.detik.net.id/community/media/visual/2024/02/04/manga-dr-stone.webp?w=700&q=90",
                         "answer" => [
                             [
                                 "answer" => "Blue Eyes White Dragon",
@@ -84,6 +86,7 @@ class TestSeeder extends Seeder
             foreach($s['the_test'] as $eachQuestion){
                 $question = $subjectTest->question()->create([
                     'question' => $eachQuestion['question'],
+                    'image' => $eachQuestion['image']
                 ]);
 
                 foreach($eachQuestion['answer'] as $a){
