@@ -33,7 +33,7 @@ class SubjectTestController extends Controller
             $subjectTest->user_test()->create([
                 'user_id' => auth()->user()->id
             ]);
-            return redirect()->route('user.test.enroll.index')->with('success', 'Test Enrolled Successfully');
+            return redirect()->route('user.test.index')->with('success', 'Test Enrolled Successfully');
         } catch (\Throwable $th) {
             return redirect()->route('user.test.enroll.index')->with('error', $th->getMessage());
         }
