@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Imports\QuestionImport;
 use App\Models\Question;
 use App\Models\SubjectTest;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\SUpport\Str;
 use Maatwebsite\Excel\Facades\Excel;
@@ -18,7 +19,7 @@ class QuestionController extends Controller
     public function index(SubjectTest $subjectTest, Request $request)
     {
         if ($request->ajax()) {
-            $question = Question::select();
+            $question = Question::with('subject_test')->select();
             return datatables()->of($question)
                 ->addIndexColumn()
                 ->addColumn('action', function ($query) use ($subjectTest) {
@@ -31,18 +32,28 @@ class QuestionController extends Controller
                 ->make(true);
         }
 
-        return view('page.admin-dashboard.subject.test.question.index', compact('subjectTest'));
+        $testStart = Carbon::parse($subjectTest->start_at);
+        $testEnd = Carbon::parse($subjectTest->end_at);
+        $now = Carbon::now();
+        $duringTest = $now->isBefore($testStart);
+
+        return view('page.admin-dashboard.subject.test.question.index', compact('subjectTest', 'duringTest'));
     }
 
     public function getActionColumn($data, $subjectTestId = '', $prefix = 'admin')
     {
+        $testStart = Carbon::parse($data->subject_test->start_at);
+        $testEnd = Carbon::parse($data->subject_test->end_at);
+        $now = Carbon::now();
         $ident = Str::random(10);
         $editBtn = route('admin.test.question.edit', [$subjectTestId, $data->id]);
         $deleteBtn = route('admin.test.question.destroy', [$subjectTestId, $data->id]);
         $answerBtn = route('admin.test.answer.index', [$subjectTestId, $data->id]);
         $buttonAction = '<a href="' . $editBtn . '" class="' . self::CLASS_BUTTON_PRIMARY . '">Edit</a>';
         $buttonAction .= '<a href="' . $answerBtn . '" class="' . self::CLASS_BUTTON_INFO . '">Jawaban</a>';
-        $buttonAction .= '<button type="button" onclick="delete_data(\'form' . $ident . '\')"class="' . self::CLASS_BUTTON_DANGER . '">Delete</button>' . '<form id="form' . $ident . '" action="' . $deleteBtn . '" method="post"> <input type="hidden" name="_token" value="' . csrf_token() . '" /> <input type="hidden" name="_method" value="DELETE"> </form>';
+        if($now->isBefore($testStart)){
+            $buttonAction .= '<button type="button" onclick="delete_data(\'form' . $ident . '\')"class="' . self::CLASS_BUTTON_DANGER . '">Delete</button>' . '<form id="form' . $ident . '" action="' . $deleteBtn . '" method="post"> <input type="hidden" name="_token" value="' . csrf_token() . '" /> <input type="hidden" name="_method" value="DELETE"> </form>';
+        }
         return $buttonAction;
     }
 

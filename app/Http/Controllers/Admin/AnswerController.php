@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Answer;
 use App\Models\Question;
 use App\Models\SubjectTest;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -18,7 +19,7 @@ class AnswerController extends Controller
     {
         if($request->ajax())
         {
-            $answer = Answer::with('question')->whereHas('question', function($query) use ($question){
+            $answer = Answer::with('question.subject_test')->whereHas('question', function($query) use ($question){
                 $query->where('questions.id', $question->id);
             })->select();
             return datatables()->of($answer)
@@ -32,16 +33,27 @@ class AnswerController extends Controller
             ->make(true);
         }
 
-        return view('page.admin-dashboard.subject.test.answer.index', compact('subjectTest', 'question'));
+        $testStart = Carbon::parse($subjectTest->start_at);
+        $testEnd = Carbon::parse($subjectTest->end_at);
+        $now = Carbon::now();
+        $beforeTest = $now->isBefore($testStart);
+
+        return view('page.admin-dashboard.subject.test.answer.index', compact('subjectTest', 'question', 'beforeTest'));
     }
 
     public function getActionColumn($data, $subjectTestId = '', $questionId = '')
     {
+        $testStart = Carbon::parse($data->question->subject_test->start_at);
+        $now = Carbon::now();
+        $beforeTest = $now->isBefore($testStart);
+
         $ident = Str::random(10);
         $editBtn = route('admin.test.answer.edit', [$subjectTestId, $questionId, $data->id]);
         $deleteBtn = route('admin.test.answer.destroy', [$subjectTestId, $questionId, $data->id]);
         $buttonAction = '<a href="' . $editBtn . '" class="' . self::CLASS_BUTTON_PRIMARY . '">Edit</a>';
-        $buttonAction .= '<button type="button" onclick="delete_data(\'form' . $ident . '\')"class="' . self::CLASS_BUTTON_DANGER . '">Delete</button>' . '<form id="form' . $ident . '" action="' . $deleteBtn . '" method="post"> <input type="hidden" name="_token" value="' . csrf_token() . '" /> <input type="hidden" name="_method" value="DELETE"> </form>';
+        if ($beforeTest) {
+            $buttonAction .= '<button type="button" onclick="delete_data(\'form' . $ident . '\')"class="' . self::CLASS_BUTTON_DANGER . '">Delete</button>' . '<form id="form' . $ident . '" action="' . $deleteBtn . '" method="post"> <input type="hidden" name="_token" value="' . csrf_token() . '" /> <input type="hidden" name="_method" value="DELETE"> </form>';
+        }
         return $buttonAction;
     }
 

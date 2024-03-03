@@ -66,8 +66,6 @@ class SubjectTestController extends Controller
 
     public function getActionCustom($data)
     {
-
-
         $ident = Str::random(10);
         $testStart = Carbon::parse($data->subject_test->start_at);
         $testEnd = Carbon::parse($data->subject_test->end_at);
@@ -94,6 +92,15 @@ class SubjectTestController extends Controller
 
     public function finish_test(Request $request, SubjectTest $subjectTest)
     {
+        $testStart = Carbon::parse($subjectTest->start_at);
+        $testEnd = Carbon::parse($subjectTest->end_at);
+        $now = Carbon::now();
+
+        if ($now->between($testStart, $testEnd)){
+            return redirect()->route('user.test.index')->with('error', 'Test belum berakhir');
+        }
+
+
         if ($request->ajax())
         {
             $userTest = UserTest::with('user')->where('test_id', $subjectTest->id)->orderby('score', 'desc')->select();

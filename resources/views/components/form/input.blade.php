@@ -25,7 +25,7 @@
                 class="btn text-violet-500 hover:text-white border-violet-500 hover:bg-violet-600 hover:border-violet-600 focus:bg-violet-600 focus:text-white focus:border-violet-600 focus:ring focus:ring-violet-500/30 active:bg-violet-600 active:border-violet-600">Choose
                 {{ $texting }}</label>
         @else
-            <input {{ $disable ? 'readonly' : '' }} oninput="{{ $oninput }}" name="{{ $name }}"
+            <input {{ $disable !== "" && $disable !== null ? 'readonly' : '' }} oninput="{{ $oninput }}" name="{{ $name }}"
                 id="input-{{ $name }}"
                 class="w-full rounded border-gray-100 placeholder:text-sm focus:border focus:border-violet-500 focus:ring-0 dark:bg-zinc-700/50 dark:border-zinc-600 dark:placeholder:text-zinc-100 dark:text-zinc-100"
                 type="{{ $type }}" placeholder="{{ $placeholder }}" value="{{ $value }}">

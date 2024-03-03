@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Subject;
 use App\Models\SubjectTest;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -34,9 +35,12 @@ class SubjectTestController extends Controller
                     return $query->question()->count();
                 })
                 ->addColumn('status', function ($query) {
-                    if (time() >= $query->start_at && time() <= $query->end_at) {
+                    $testStart = Carbon::parse($query->start_at);
+                    $testEnd = Carbon::parse($query->end_at);
+                    $now = Carbon::now();
+                    if ($now->between($testStart, $testEnd)) {
                         return '<span class="badge ' . self::CLASS_BUTTON_PRIMARY . ' text-white py-1 px-3 rounded-full text-xs">Sedang Berlangsung</span>';
-                    } else if (time() < $query->start_at) {
+                    } else if ($now->isBefore($testStart)) {
                         return '<span class="badge ' . self::CLASS_BUTTON_SUCCESS . '">Belum Mulai</span>';
                     } else {
                         return '<span class="badge ' . self::CLASS_BUTTON_DANGER . '">Selesai</span>';
@@ -54,15 +58,21 @@ class SubjectTestController extends Controller
 
     public function getActionColumn($data, $subjectTestId = '', $prefix = 'admin')
     {
+        $testStart = Carbon::parse($data->start_at);
+        $testEnd = Carbon::parse($data->end_at);
+        $now = Carbon::now();
         $ident = Str::random(10);
         $editBtn = route('admin.test.edit', $data->id);
         $deleteBtn = route('admin.test.destroy', $data->id);
         $questionBtn = route('admin.test.question.index', $data->id);
         $userBtn = route('admin.test.user.index', $data->id);
-        $buttonAction = '<a href="' . $editBtn . '" class="' . self::CLASS_BUTTON_PRIMARY . '">Edit</a>';
+        $buttonAction = '';
+        $buttonAction .= '<a href="' . $editBtn . '" class="' . self::CLASS_BUTTON_PRIMARY . '">Edit</a>';
         $buttonAction .= '<a href="' . $questionBtn . '" class="' . self::CLASS_BUTTON_INFO . '">Question List</a>';
         $buttonAction .= '<a href="' . $userBtn . '" class="' . self::CLASS_BUTTON_WARNING . '">User List</a>';
-        $buttonAction .= '<button type="button" onclick="delete_data(\'form' . $ident . '\')"class="' . self::CLASS_BUTTON_DANGER . '">Delete</button>' . '<form id="form' . $ident . '" action="' . $deleteBtn . '" method="post"> <input type="hidden" name="_token" value="' . csrf_token() . '" /> <input type="hidden" name="_method" value="DELETE"> </form>';
+        if ($now->isBefore($testStart)) {
+            $buttonAction .= '<button type="button" onclick="delete_data(\'form' . $ident . '\')"class="' . self::CLASS_BUTTON_DANGER . '">Delete</button>' . '<form id="form' . $ident . '" action="' . $deleteBtn . '" method="post"> <input type="hidden" name="_token" value="' . csrf_token() . '" /> <input type="hidden" name="_method" value="DELETE"> </form>';
+        }
         return $buttonAction;
     }
 
@@ -113,7 +123,11 @@ class SubjectTestController extends Controller
     {
         $data = $this->createMetaPageData($subjectTest->id, 'Subject Test', 'test');
         $subject = Subject::pluck('name', 'id');
-        return view('page.admin-dashboard.subject.test.create-edit', compact('data', 'subjectTest', 'subject'));
+        $testStart = Carbon::parse($subjectTest->start_at);
+        $now = Carbon::now();
+        $beforeTest = $now->isBefore($testStart);
+
+        return view('page.admin-dashboard.subject.test.create-edit', compact('data', 'subjectTest', 'subject', 'beforeTest'));
     }
 
     /**

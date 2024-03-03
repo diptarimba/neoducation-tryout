@@ -9,9 +9,9 @@
         <x-form.base url="{{ $data['url'] }}" method="POST">
             <x-form.input name="name" label="Name" placeholder="input subject name"
             value="{{ $subjectTest->name ?? '' }}" />
-            <x-form.input name="start_at" type="datetime-local" label="Start At" placeholder="choose when the test start"
+            <x-form.input disable="{{ !$beforeTest ?: 'disable'}}" name="start_at" type="datetime-local" label="Start At" placeholder="choose when the test start"
                 value="{{ isset($subjectTest->start_at) ? $subjectTest->start_at : '' }}" />
-            <x-form.input name="end_at" type="datetime-local" label="End At" placeholder="choose when the test end"
+            <x-form.input disable="{{ !$beforeTest ?: 'disable'}}" name="end_at" type="datetime-local" label="End At" placeholder="choose when the test end"
                 value="{{ isset($subjectTest->end_at) ? $subjectTest->end_at :  '' }}" />
             <x-form.input oninput="this.value = this.value.replace(/\s/g, '');" name="enrolled_code" label="Enrolled Code" placeholder="input enrolled code"
                 value="{{ $subjectTest->enrolled_code ?? strtoupper(\Illuminate\Support\Str::random(8)) }}" />
