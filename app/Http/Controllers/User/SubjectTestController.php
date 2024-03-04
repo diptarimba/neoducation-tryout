@@ -56,7 +56,10 @@ class SubjectTestController extends Controller
                 return $testStart->format('d M Y H:i') . ' - ' . $testEnd->format('d M Y H:i');
             })
             ->addColumn('score', function($query){
-                return $query->start_at == null && $query->score == null ? 'Belum Mulai' : ($query->subject_test->end_at < Carbon::now() ? $query->score : 'Tunggu Ujian Berakhir');
+                $testStart = Carbon::parse($query->subject_test->start_at);
+                $testEnd = Carbon::parse($query->subject_test->end_at);
+                $now = Carbon::now();
+                return $now->isBefore($testStart) ? 'Test Belum Mulai' : ($now->isBetween($testStart, $testEnd) && $query->start_at == null && $query->score == null ? 'Kamu Belum Mulai - Test Sedang Berlangsung' : ($query->subject_test->end_at < Carbon::now() ? $query->score : 'Tunggu Ujian Berakhir'));
             })
             ->make(true);
         }
