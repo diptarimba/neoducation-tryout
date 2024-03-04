@@ -19,7 +19,7 @@ class QuestionController extends Controller
     public function index(SubjectTest $subjectTest, Request $request)
     {
         if ($request->ajax()) {
-            $question = Question::with('subject_test')->select();
+            $question = Question::with('subject_test')->where('test_id', $subjectTest->id)->select();
             return datatables()->of($question)
                 ->addIndexColumn()
                 ->addColumn('action', function ($query) use ($subjectTest) {
