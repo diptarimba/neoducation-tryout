@@ -21,7 +21,8 @@ class SubjectTest extends Model
         'end_at',
         'created_by_id',
         'subject_id',
-        'enrolled_code'
+        'enrolled_code',
+        'status'
     ];
 
     protected $dates = ['deleted_at'];

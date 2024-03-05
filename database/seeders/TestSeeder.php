@@ -77,8 +77,9 @@ class TestSeeder extends Seeder
             $subjectTest = $subject->subject_test()->create([
                 'name' => $s['test'],
                 'start_at' => $time->format('Y-m-d H:i:s'),
-                'end_at' => $time->addHours(5)->format('Y-m-d H:i:s'),
+                'end_at' => $time->addMinutes(5)->format('Y-m-d H:i:s'),
                 'created_by_id' => $user->id,
+                'status' => 'ON_GOING',
                 'subject_id' => $subject->id,
                 'enrolled_code' => strtoupper(\Illuminate\Support\Str::random(10)),
             ]);
@@ -96,6 +97,12 @@ class TestSeeder extends Seeder
                 }
 
             }
+
+            User::role('user')->get()->each(function($query) use ($subjectTest){
+                $subjectTest->user_test()->create([
+                    'user_id' => $query->id
+                ]);
+            });
         }
 
 

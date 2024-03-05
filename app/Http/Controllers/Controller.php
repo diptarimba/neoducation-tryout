@@ -17,6 +17,11 @@ class Controller extends BaseController
     const CLASS_BUTTON_WARNING = 'btn m-1 text-white bg-yellow-500 border-yellow-500 hover:bg-yellow-600 hover:border-yellow-600 focus:bg-yellow-600 focus:border-yellow-600 focus:ring focus:ring-yellow-500/30 active:bg-yellow-600 active:border-yellow-600';
     const CLASS_BUTTON_DANGER = 'btn m-1 text-white bg-red-500 border-red-500 hover:bg-red-600 hover:border-red-600 focus:bg-red-600 focus:border-red-600 focus:ring focus:ring-red-500/30 active:bg-red-600 active:border-red-600';
 
+    const STATUS_TEST_PLANNED = 'PLANNED';
+    const STATUS_TEST_ON_GOING = 'ON_GOING';
+    const STATUS_TEST_ENDED = 'ENDED';
+    const STATUS_TEST_ERROR = 'ERROR';
+
     public function getActionColumn($data, $path = '', $prefix = 'admin')
     {
         $ident = Str::random(10);

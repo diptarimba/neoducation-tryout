@@ -11,6 +11,7 @@ use App\Http\Controllers\Admin\UserTestController;
 use App\Http\Controllers\User\HomeController as UserHomeController;
 use App\Http\Controllers\LoginRegisterController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SchedulerController;
 use App\Http\Controllers\User\SubjectTestController as UserSubjectTestController;
 use App\Http\Controllers\User\UserTestController as UserUserTestController;
 use Illuminate\Support\Facades\Route;
@@ -34,6 +35,9 @@ Route::get('/register', function () {
 Route::post('/users', [\App\Http\Controllers\UserController::class, 'store'])->name('users.store');
 Route::get('/login', [LoginRegisterController::class, 'login'])->name('login.index');
 Route::post('/authenticate', [LoginRegisterController::class, 'authenticate'])->name('login.post');
+
+Route::get('/start-test', [SchedulerController::class, 'start_test'])->name('start.test');
+Route::get('/end-test', [SchedulerController::class, 'end_test'])->name('end.test');
 
 Route::middleware(['no_auth'])->group(function () {
     Route::get('me', [ProfileController::class, 'index'])->name('profile.me');

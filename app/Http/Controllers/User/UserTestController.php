@@ -97,7 +97,7 @@ class UserTestController extends Controller
         $testEnd = Carbon::parse($userTest->subject_test->end_at);
         $now = Carbon::now();
 
-        if (!is_null($userTest->start_at) && $now->between($testStart, $testEnd)) {
+        if (!is_null($userTest->start_at) && $now->between($testStart, $testEnd) && $userTest->subject_test->status == self::STATUS_TEST_ON_GOING) {
             return redirect()->route('user.test.start.show', $userTest->id);
         }
 
@@ -157,21 +157,21 @@ class UserTestController extends Controller
             if ($request->has('ended')) {
                 try {
                     //code...
-                    $userTest->load('subject_test.question');
-                    $allQuestionId = $userTest->subject_test->question->pluck('id');
-                    foreach($allQuestionId as $each){
-                        $userTest->user_answer()->firstOrCreate([
-                                'question_id' => $each
-                            ]);
-                    }
-                    $questionCount = $userTest->subject_test->question->count();
-                    $correctAnswer = $userTest->user_answer()->whereHas('answer', function($query){
-                        $query->where('is_true', '1');
-                    })->count();
-                    $score = ($correctAnswer / $questionCount) * 100;
+                    // $userTest->load('subject_test.question');
+                    // $allQuestionId = $userTest->subject_test->question->pluck('id');
+                    // foreach($allQuestionId as $each){
+                    //     $userTest->user_answer()->firstOrCreate([
+                    //         'question_id' => $each
+                    //     ]);
+                    // }
+                    // $questionCount = $userTest->subject_test->question->count();
+                    // $correctAnswer = $userTest->user_answer()->whereHas('answer', function($query){
+                    //     $query->where('is_true', '1');
+                    // })->count();
+                    // $score = ($correctAnswer / $questionCount) * 100;
                     $userTest->update([
                         'end_at' => date("Y-m-d H:i:s"),
-                        'score' => $score
+                        // 'score' => $score
                     ]);
                     return response()->json(['success' => true]);
                 } catch (\Throwable $th) {

@@ -18,6 +18,7 @@
                     <th class="p-4 pr-8 border border-y-2 border-gray-50 dark:border-zinc-600 border-l-0">Jumlah Soal</th>
                     <th class="p-4 pr-8 border border-y-2 border-gray-50 dark:border-zinc-600 border-l-0">Enrolled Code</th>
                     <th class="p-4 pr-8 border border-y-2 border-gray-50 dark:border-zinc-600 border-l-0">Status</th>
+                    <th class="p-4 pr-8 border border-y-2 border-gray-50 dark:border-zinc-600 border-l-0">Message</th>
                     <th class="p-4 pr-8 border border-y-2 border-gray-50 dark:border-zinc-600 border-l-0">Action</th>
                     </th>
                 </tr>
@@ -37,6 +38,7 @@
     <x-datatables.column name="question_count"/>
     <x-datatables.column name="enrolled_code"/>
     <x-datatables.column name="status"/>
+    <x-datatables.column name="message"/>
     <x-datatables.action />
 </x-datatables.single>
 @endsection

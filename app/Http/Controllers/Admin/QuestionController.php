@@ -32,26 +32,22 @@ class QuestionController extends Controller
                 ->make(true);
         }
 
-        $testStart = Carbon::parse($subjectTest->start_at);
-        $testEnd = Carbon::parse($subjectTest->end_at);
-        $now = Carbon::now();
-        $duringTest = $now->isBefore($testStart);
+        $duringTest = $subjectTest->status == self::STATUS_TEST_PLANNED || $subjectTest->status == self::STATUS_TEST_ERROR;
 
         return view('page.admin-dashboard.subject.test.question.index', compact('subjectTest', 'duringTest'));
     }
 
     public function getActionColumn($data, $subjectTestId = '', $prefix = 'admin')
     {
-        $testStart = Carbon::parse($data->subject_test->start_at);
-        $testEnd = Carbon::parse($data->subject_test->end_at);
-        $now = Carbon::now();
+        $subjectTest = $data->subject_test;
+        $beforeStart = $subjectTest->status == self::STATUS_TEST_PLANNED || $subjectTest->status == self::STATUS_TEST_ERROR;
         $ident = Str::random(10);
         $editBtn = route('admin.test.question.edit', [$subjectTestId, $data->id]);
         $deleteBtn = route('admin.test.question.destroy', [$subjectTestId, $data->id]);
         $answerBtn = route('admin.test.answer.index', [$subjectTestId, $data->id]);
         $buttonAction = '<a href="' . $editBtn . '" class="' . self::CLASS_BUTTON_PRIMARY . '">Edit</a>';
         $buttonAction .= '<a href="' . $answerBtn . '" class="' . self::CLASS_BUTTON_INFO . '">Jawaban</a>';
-        if($now->isBefore($testStart)){
+        if($beforeStart){
             $buttonAction .= '<button type="button" onclick="delete_data(\'form' . $ident . '\')"class="' . self::CLASS_BUTTON_DANGER . '">Delete</button>' . '<form id="form' . $ident . '" action="' . $deleteBtn . '" method="post"> <input type="hidden" name="_token" value="' . csrf_token() . '" /> <input type="hidden" name="_method" value="DELETE"> </form>';
         }
         return $buttonAction;

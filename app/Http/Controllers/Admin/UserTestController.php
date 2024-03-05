@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\SubjectTest;
 use App\Models\UserTest;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class UserTestController extends Controller
@@ -16,9 +17,13 @@ class UserTestController extends Controller
     {
         if ($request->ajax())
         {
-            $user = UserTest::with('user')->where('test_id', $subjectTest->id)->whereNotNull('score')->whereNotNull('end_at')->select();
+            // $user = UserTest::with('user')->where('test_id', $subjectTest->id)->whereNotNull('score')->whereNotNull('end_at')->select();
+            $user = UserTest::with('user')->where('test_id', $subjectTest->id)->select();
             return datatables()->of($user)
             ->addIndexColumn()
+            ->addColumn('end_at', function($query){
+                return $query->end_at ? Carbon::parse($query->end_at)->format('d M Y H:i') : 'Belum Selesai';
+            })
             ->make(true);
         }
         return view('page.admin-dashboard.subject.test.user.index', compact('subjectTest'));

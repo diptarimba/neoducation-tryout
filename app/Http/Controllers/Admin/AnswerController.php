@@ -33,19 +33,15 @@ class AnswerController extends Controller
             ->make(true);
         }
 
-        $testStart = Carbon::parse($subjectTest->start_at);
-        $testEnd = Carbon::parse($subjectTest->end_at);
-        $now = Carbon::now();
-        $beforeTest = $now->isBefore($testStart);
+        $beforeTest = $subjectTest->status == self::STATUS_TEST_PLANNED || $subjectTest->status == self::STATUS_TEST_ERROR;
 
         return view('page.admin-dashboard.subject.test.answer.index', compact('subjectTest', 'question', 'beforeTest'));
     }
 
     public function getActionColumn($data, $subjectTestId = '', $questionId = '')
     {
-        $testStart = Carbon::parse($data->question->subject_test->start_at);
-        $now = Carbon::now();
-        $beforeTest = $now->isBefore($testStart);
+        $test = $data->question->subject_test;
+        $beforeTest = $test->status == self::STATUS_TEST_PLANNED || $test->status == self::STATUS_TEST_ERROR;
 
         $ident = Str::random(10);
         $editBtn = route('admin.test.answer.edit', [$subjectTestId, $questionId, $data->id]);

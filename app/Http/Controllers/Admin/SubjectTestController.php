@@ -35,16 +35,13 @@ class SubjectTestController extends Controller
                     return $query->question()->count();
                 })
                 ->addColumn('status', function ($query) {
-                    $testStart = Carbon::parse($query->start_at);
-                    $testEnd = Carbon::parse($query->end_at);
-                    $now = Carbon::now();
-                    if ($now->between($testStart, $testEnd)) {
-                        return '<span class="badge ' . self::CLASS_BUTTON_PRIMARY . ' text-white py-1 px-3 rounded-full text-xs">Sedang Berlangsung</span>';
-                    } else if ($now->isBefore($testStart)) {
-                        return '<span class="badge ' . self::CLASS_BUTTON_SUCCESS . '">Belum Mulai</span>';
-                    } else {
-                        return '<span class="badge ' . self::CLASS_BUTTON_DANGER . '">Selesai</span>';
-                    }
+                    $messageStatus = [
+                        self::STATUS_TEST_ENDED => ['class' => self::CLASS_BUTTON_PRIMARY, 'text' => 'Test Telah Selesai'],
+                        self::STATUS_TEST_PLANNED => ['class' => self::CLASS_BUTTON_SUCCESS, 'text' => 'Test Belum Dimulai'],
+                        self::STATUS_TEST_ON_GOING => ['class' => self::CLASS_BUTTON_WARNING, 'text' => 'Test Sedang Berlangsung'],
+                        self::STATUS_TEST_ERROR => ['class' => self::CLASS_BUTTON_DANGER, 'text' => 'Test Mengalami Kendala']
+                    ];
+                    return '<span class="badge ' . $messageStatus[$query->status]['class'] . ' text-white py-1 px-3 rounded-full text-xs">'.$messageStatus[$query->status]['text'].'</span>';
                 })
                 ->addColumn('action', function ($query) {
                     return $this->getActionColumn($query, 'test');
@@ -100,7 +97,8 @@ class SubjectTestController extends Controller
         ]);
 
         $data = array_merge($request->all(), [
-            'created_by_id' => auth()->user()->id
+            'created_by_id' => auth()->user()->id,
+            'status' => self::STATUS_TEST_PLANNED
         ]);
 
         SubjectTest::create($data);
