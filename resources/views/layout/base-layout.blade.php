@@ -21,12 +21,14 @@
 
     <link rel="stylesheet" href="{{ asset('assets-dashboard/libs/swiper/swiper-bundle.min.css') }}">
 
-    @stack('additional-header')
+
 
     <link rel="stylesheet" href="{{ asset('assets-dashboard/css/icons.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets-dashboard/css/tailwind.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets-dashboard/css/buttons.dataTables.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets-dashboard/css/daterangepicker.css') }}" />
 
-
+    @stack('additional-header')
 
 
 </head>
@@ -246,6 +248,7 @@
     <script src="{{ asset('assets-dashboard/js/app.js') }}"></script>
 
     <script src="{{asset('assets-dashboard/js/pages/moment.js')}}"></script>
+    <script src="{{ asset('assets-dashboard/js/pages/daterangepicker.js') }}"></script>
 
     <!-- Sweet Alerts js -->
     <script src="{{ asset('assets-dashboard/libs/sweetalert2/sweetalert2.min.js') }}"></script>

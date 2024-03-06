@@ -18,10 +18,16 @@ class UserController extends Controller
             $user = User::whereHas('roles', function ($query) {
                 $query->where('name', 'user');
             })
+                ->when($request->start_date !== null, function ($query) use ($request) {
+                    return $query->where('created_at', '>=', $request->start_date);
+                })
+                ->when($request->end_date !== null, function ($query) use ($request) {
+                    return $query->where('created_at', '<=', $request->end_date);
+                })
                 ->where(function ($query) use ($search) {
-                    $query->where('name', 'like', '%' . $search . '%')
-                        ->orWhere('phone', 'like', '%' . $search . '%')
-                        ->orWhere('school', 'like', '%' . $search . '%');
+                    $query->whereRaw('LOWER(name) LIKE ?', ['%' . strtolower($search) . '%'])
+                        ->orWhereRaw('LOWER(phone) LIKE ?', ['%' . strtolower($search) . '%'])
+                        ->orWhereRaw('LOWER(school) LIKE ?', ['%' . strtolower($search) . '%']);
                 })
                 ->select();
             return datatables()->of($user)

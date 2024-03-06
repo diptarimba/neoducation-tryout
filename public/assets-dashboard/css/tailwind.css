@@ -7002,10 +7002,10 @@ div.dataTables_wrapper div.dataTables_paginate {
     border-left: 1px solid #C0C2CB !important;
 }
 .dataTables_wrapper .btn-group .buttons-collection {
-    border-top-right-radius: 5px;
+    /* border-top-right-radius: 5px;
     border-bottom-right-radius: 5px;
     border-top-left-radius: 0 !important;
-    border-bottom-left-radius: 0 !important;
+    border-bottom-left-radius: 0 !important; */
 }
 [dir=rtl] .dataTables_wrapper .btn-group .buttons-collection{
     border-top-right-radius: 0 !important;
@@ -7089,7 +7089,7 @@ div.dt-button-collection .dt-button {
 }
 .dt-button-collection .dropdown-menu{
   --tw-bg-opacity: 1;
-  background-color: rgb(217 218 224 / var(--tw-bg-opacity));
+  background-color: #4f5157;
 }
 [data-mode="dark"] .dt-button-collection .dropdown-menu{
   --tw-bg-opacity: 1;
