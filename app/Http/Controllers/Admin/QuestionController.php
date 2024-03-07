@@ -147,7 +147,7 @@ class QuestionController extends Controller
     public function upload_index(SubjectTest $subjectTest)
     {
         $data = [
-            'title' => "Upload Pertanyaan",
+            'title' => "Membuat Pertanyaan (Upload)",
             'url' => route('admin.test.question.upload.store', $subjectTest->id),
             'home' => route('admin.test.question.index', $subjectTest->id),
         ];
