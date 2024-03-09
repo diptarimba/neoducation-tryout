@@ -19,25 +19,35 @@ class SchedulerController extends Controller
         });
 
         try {
-            $testCheck = $test->get()->each(function ($query) {
-                $query->question->each(function ($query) {
-                    if ($query->answer()->count() !== 4) {
-                        throw new \Exception('Please fill answer option for all question', 1);
-                    }
-                });
+        $hasError = false;
+        foreach ($test->get() as $queryTest) {
+            $anyQuestionWithoutFourAnswer = $queryTest->question->contains(function ($queryQuestion) {
+                return $queryQuestion->answer()->count() !== 4;
             });
+
+            if ($anyQuestionWithoutFourAnswer) {
+                $hasError = true;
+                $queryTest->update([
+                    'status' => self::STATUS_TEST_ERROR,
+                    'message' => 'Please fill answer option for all question',
+                ]);
+                continue;
+            }
+            $queryTest->update(['status' => self::STATUS_TEST_ON_GOING, 'message' => 'Test Started Successfully']);
+
+        }
+
+        if ($hasError) {
+            throw new \Exception('Please fill answer option for all question', 1);
+        }
+
         } catch (\Throwable $th) {
-            $test->update([
-                'status' => self::STATUS_TEST_ERROR,
-                'message' => $th->getMessage()
-            ]);
             return response()->json([
                 'success' => false,
                 'message' => $th->getMessage()
             ]);
         }
 
-        $test->update(['status' => self::STATUS_TEST_ON_GOING, 'message' => 'Test Started Successfully']);
         return response()->json([
             'success' => true,
             'message' => 'Test Started Successfully'
