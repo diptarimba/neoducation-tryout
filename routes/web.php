@@ -36,9 +36,6 @@ Route::post('/users', [\App\Http\Controllers\UserController::class, 'store'])->n
 Route::get('/login', [LoginRegisterController::class, 'login'])->name('login.index');
 Route::post('/authenticate', [LoginRegisterController::class, 'authenticate'])->name('login.post');
 
-Route::get('/start-test', [SchedulerController::class, 'start_test'])->name('start.test');
-Route::get('/end-test', [SchedulerController::class, 'end_test'])->name('end.test');
-
 Route::middleware(['no_auth'])->group(function () {
     Route::get('me', [ProfileController::class, 'index'])->name('profile.me');
     Route::post('{user}/me', [ProfileController::class, 'store'])->name('profile.store');
