@@ -11,36 +11,46 @@ class SchedulerController extends Controller
     public function start_test()
     {
         $test = SubjectTest::with('question')
-        ->where('start_at', '<=', date("Y-m-d H:i:s"))
-        ->where('end_at', '>', date("Y-m-d H:i:s"))
-        ->where(function ($query) {
-            $query->where('status', self::STATUS_TEST_PLANNED);
-            $query->orWhere('status', self::STATUS_TEST_ERROR);
-        });
-
-        try {
-        $hasError = false;
-        foreach ($test->get() as $queryTest) {
-            $anyQuestionWithoutFourAnswer = $queryTest->question->contains(function ($queryQuestion) {
-                return $queryQuestion->answer()->count() !== 4;
+            ->where('start_at', '<=', date("Y-m-d H:i:s"))
+            ->where('end_at', '>', date("Y-m-d H:i:s"))
+            ->where(function ($query) {
+                $query->where('status', self::STATUS_TEST_PLANNED);
+                $query->orWhere('status', self::STATUS_TEST_ERROR);
             });
 
-            if ($anyQuestionWithoutFourAnswer) {
-                $hasError = true;
-                $queryTest->update([
-                    'status' => self::STATUS_TEST_ERROR,
-                    'message' => 'Please fill answer option for all question',
-                ]);
-                continue;
+        try {
+            $hasError = false;
+            $allTest = $test->get();
+            foreach ($allTest as $queryTest) {
+                $anyQuestionWithoutFourAnswer = $queryTest->question->contains(function ($queryQuestion) {
+                    return $queryQuestion->answer()->count() !== 4;
+                });
+
+                if ($anyQuestionWithoutFourAnswer) {
+                    $hasError = true;
+                    $queryTest->update([
+                        'status' => self::STATUS_TEST_ERROR,
+                        'message' => 'Please fill answer option for all question',
+                    ]);
+                    continue;
+                }
+
+                $questionCount = $queryTest->question->count();
+
+                if ($questionCount == 0) {
+                    $hasError = true;
+                    $queryTest->update([
+                        'status' => self::STATUS_TEST_ERROR,
+                        'message' => 'No question found',
+                    ]);
+                    continue;
+                }
+                $queryTest->update(['status' => self::STATUS_TEST_ON_GOING, 'message' => 'Test Started Successfully']);
             }
-            $queryTest->update(['status' => self::STATUS_TEST_ON_GOING, 'message' => 'Test Started Successfully']);
 
-        }
-
-        if ($hasError) {
-            throw new \Exception('Please fill answer option for all question', 1);
-        }
-
+            if ($hasError) {
+                throw new \Exception('Please fill answer option for all question', 1);
+            }
         } catch (\Throwable $th) {
             return response()->json([
                 'success' => false,
@@ -63,7 +73,7 @@ class SchedulerController extends Controller
             $allQuestionId = $query->question->pluck('id');
             $countQuestion = $query->question()->count();
             // menghitung score
-            $query->user_test()->each(function($query) use($countQuestion, $endAt,  $allQuestionId){
+            $query->user_test()->each(function ($query) use ($countQuestion, $endAt,  $allQuestionId) {
                 // mengisi jawaban yang tidak diisi oleh pengguna, gunanya untuk ditampilkan hasil dari jawaban
                 foreach ($allQuestionId as $each) {
                     $query->user_answer()->firstOrCreate([
@@ -75,6 +85,15 @@ class SchedulerController extends Controller
                     $q->where('is_true', true);
                 })->count();
                 // menghitung score yang didapatkan user
+
+                if ($countQuestion == 0){
+                    $query->update([
+                        'end_at' => $query->end_at ?? $endAt,
+                        'score' => 100
+                    ]);
+                    return;
+                }
+
                 $score = ($countCorrectAnswer / $countQuestion) * 100;
                 // update user test
                 $query->update([
