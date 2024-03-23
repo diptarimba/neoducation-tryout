@@ -49,7 +49,7 @@ Route::middleware(['no_auth'])->group(function () {
         ->parameter('test', 'subjectTest')
         ->parameter('q', 'question')
         ->parameter('a', 'answer');
-
+        Route::post('user/download', [UserController::class, 'download'])->name('user.download');
         Route::put('user/{user}/password', [UserController::class, 'reset_password'])->name('user.password');
 
         Route::resource('user', UserController::class);

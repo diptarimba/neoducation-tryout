@@ -36,6 +36,9 @@
     {{-- </div> --}}
 </div>
     <x-util.card title="Siswa Terdaftar">
+        <x-slot name="customBtn">
+            <button type="submit" form="formuserdl" class="{{$color_download}}">Download All Data</button>
+        </x-slot name="customBtn">
         <div class="overflow-x-auto">
             <table id="datatable" class="table w-full pt-4 text-gray-700 dark:text-zinc-100 datatables-target-exec">
                 <thead>
@@ -54,6 +57,8 @@
             </table>
         </div>
     </x-util.card>
+    <x-form.base unique="userdl" url="{{ $user_download }}" method="POST">
+    </x-form.base>
 @endsection
 
 @section('custom-footer')

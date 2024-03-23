@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Exports\UserExport;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 
 class UserController extends Controller
 {
@@ -41,8 +43,9 @@ class UserController extends Controller
                 ->rawColumns(['action', 'registered_at'])
                 ->make(true);
         }
-
-        return view('page.admin-dashboard.user.index');
+        $user_download = route('admin.user.download', request()->only(['start_date', 'end_date']));
+        $color_download = self::CLASS_BUTTON_INFO;
+        return view('page.admin-dashboard.user.index', compact('user_download', 'color_download'));
     }
 
     /**
@@ -111,5 +114,10 @@ class UserController extends Controller
         } catch (\Throwable $th) {
             return redirect()->route('admin.user.index')->with('error', $th->getMessage());
         }
+    }
+
+    public function download(Request $request)
+    {
+        return Excel::download(new UserExport(null, $request->only(['start_date', 'end_date'])), 'users_'.date_format(now(), 'd M Y_H i s').'.xlsx');
     }
 }
