@@ -71,6 +71,9 @@ class UserTestController extends Controller
         $testStart = Carbon::parse($userTest->subject_test->start_at);
         $testEnd = Carbon::parse($userTest->subject_test->end_at);
         $now = Carbon::now();
+        $diff = $testEnd->diff($testStart);
+        $waktu = $diff->h . ' Jam ' . $diff->i . ' Menit';
+        $countSoal = $userTest->subject_test->question->count();
         if (is_null($userTest->start_at) && $now->between($testStart, $testEnd)) {
             $data = [
                 "home" => route('user.test.start.index', $userTest->id),
@@ -78,7 +81,7 @@ class UserTestController extends Controller
                 'title' => 'Start Test',
             ];
 
-            return view('page.user-dashboard.subject.test.ready', compact('userTest', 'data'));
+            return view('page.user-dashboard.subject.test.ready', compact('userTest', 'data', 'waktu', 'countSoal'));
         } else if (!is_null($userTest->start_at) && $now->between($testStart, $testEnd)) {
             return redirect()->route('user.test.start.show', $userTest->id);
         }
